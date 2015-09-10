@@ -165,6 +165,9 @@ exec_always --no-startup-id /etc/lightdm/display-setup.sh
 # mouse wheel like in Macs
 exec_always --no-startup-id "xmodmap -e 'pointer = 1 2 3 5 4'"
 
+# mouse speed
+exec_always xinput --set-prop 10 275 0.5
+
 # volume control (pactl required)
 bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume @DEFAULT_SINK@ -- '-5%'
 bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume @DEFAULT_SINK@ -- '+5%'
