@@ -80,4 +80,5 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
 export DOCKER_HOST="tcp://$(boot2docker ip 2>/dev/null):2375";
