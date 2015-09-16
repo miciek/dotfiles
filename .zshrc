@@ -1,3 +1,12 @@
+# What platform is this?
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+    platform='linux'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+    platform='mac'
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -49,7 +58,7 @@ plugins=(git scala sbt atom httpie docker command-not-found brew node npm last-w
 
 # User configuration
 
-export PATH="/Users/michal.plachta/java/apache-maven-3.2.2/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
+export PATH="/Users/michal.plachta/java/apache-maven-3.2.2/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -70,7 +79,9 @@ source $ZSH/oh-my-zsh.sh
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-. ~/Applications/Tools/z.sh
+if [[ "$platform" == 'mac' ]]; then
+    . ~/Applications/Tools/z.sh
+fi
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -81,4 +92,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export DOCKER_HOST="tcp://$(boot2docker ip 2>/dev/null):2375";
+if [[ "$platform" == 'mac' ]]; then
+    export DOCKER_HOST="tcp://$(boot2docker ip 2>/dev/null):2375";
+fi
+
