@@ -1,0 +1,32 @@
+"*":
+  editor:
+    fontSize: 15
+    invisibles: {}
+    tabType: "soft"
+    showIndentGuide: true
+    showInvisibles: true
+  core:
+    themes: [
+      "atom-material-ui"
+      "solarized-dark-syntax"
+    ]
+  "exception-reporting":
+    userId: "423d268c-8184-b9c3-9bff-086ac1a94261"
+  welcome:
+    showOnStartup: false
+  metrics:
+    userId: "7404821daf0272bfcbb90438a14a673eabb13e96"
+  "file-watcher":
+    promptWhenFileHasChangedOnDisk: false
+  nuclide:
+    remoteProjectsConfig: []
+  "spell-check": {}
+  autosave:
+    enabled: true
+  "atom-material-ui": {}
+  "tree-view":
+    hideVcsIgnoredFiles: true
+  "autocomplete-clang": {}
+  "vim-mode":
+    useClipboardAsDefaultRegister: true
+  "language-babel": {}
