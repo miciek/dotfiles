@@ -81,6 +81,8 @@ source $ZSH/oh-my-zsh.sh
 
 if [[ "$platform" == 'mac' ]]; then
     . ~/Applications/Tools/z.sh
+elif [[ "$platform" == 'linux' ]]; then
+    . ~/Apps/tools/z.sh
 fi
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
