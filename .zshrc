@@ -67,11 +67,7 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+export EDITOR='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -79,6 +75,7 @@ source $ZSH/oh-my-zsh.sh
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
+# z - jump around
 if [[ "$platform" == 'mac' ]]; then
     . ~/Applications/Tools/z.sh
 elif [[ "$platform" == 'linux' ]]; then
@@ -94,6 +91,7 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Docker setup
 if [[ "$platform" == 'mac' ]]; then
     export DOCKER_HOST="tcp://$(boot2docker ip 2>/dev/null):2375";
 fi
