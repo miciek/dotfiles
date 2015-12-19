@@ -200,9 +200,6 @@ bindsym $mod+x move workspace to output right
 # start f.lux with home location
 exec_always ~/Apps/xflux -l 50.1212670 -g 19.7198360
 
-# mount klaus 
-exec_always ~/Apps/tools/klaus_mount.sh 
-
 # bind ctrl-shift-mod-l to switch the user
 bindsym Ctrl+Shift+$mod+l exec dm-tool switch-to-greeter
 
