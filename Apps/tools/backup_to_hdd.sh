@@ -1,0 +1,1 @@
+duplicity --progress --include=/home/micio/Pictures --include=/home/micio/Documents --include=/home/micio/Workspace --include=/home/micio/Music --include=/home/micio/Videos --exclude='**' /home/micio/ file:///media/micio/miciek-back/miciek-laptop
