@@ -1,6 +1,6 @@
 "*":
   editor:
-    fontSize: 19
+    fontSize: 17
     invisibles: {}
     tabType: "soft"
     showIndentGuide: true
