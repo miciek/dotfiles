@@ -56,12 +56,6 @@ ZSH_THEME="zemm-blinks"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git scala sbt atom httpie docker command-not-found brew node npm last-working-dir zsh-syntax-highlighting)
 
-# User configuration
-
-export PATH="/Users/michal.plachta/java/apache-maven-3.2.2/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/bin"
-export PATH="$HOME/Library/Haskell/bin:$PATH"
-# export MANPATH="/usr/local/man:$MANPATH"
-
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
