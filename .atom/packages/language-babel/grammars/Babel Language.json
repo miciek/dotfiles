@@ -1,6 +1,5 @@
 {
   "name": "Babel ES6 JavaScript",
-  "comment": "27Apr15",
   "scopeName": "source.js.jsx",
   "foldingStartMarker": "(/\\*|\\{|\\()",
   "foldingEndMarker": "(\\*/|\\}|\\))",
@@ -9,7 +8,8 @@
     "js",
     "es6",
     "babel",
-    "jsx"
+    "jsx",
+    "flow"
   ],
   "patterns": [
     { "include": "#core" }
@@ -17,6 +17,7 @@
   "repository": {
     "core": {
       "patterns": [
+        { "include": "#ignore-long-lines" },
         { "include": "#flowtype-declare" },
         { "include": "#flowtype-type-aliases" },
         { "include": "#flowtype-interface" },
@@ -32,6 +33,7 @@
     },
     "expression": {
       "patterns": [
+        { "include": "#ignore-long-lines" },
         { "include": "#jsx" },
         { "include": "#es7-decorators" },
         { "include": "#support" },
@@ -46,7 +48,6 @@
         { "include": "#literal-string" },
         { "include": "#literal-language-constant" },
         { "include": "#literal-language-variable" },
-        { "include": "#literal-method" },
         { "include": "#literal-module" },
         { "include": "#literal-class" },
         { "include": "#literal-constructor" },
@@ -55,7 +56,17 @@
         { "include": "#comments" },
         { "include": "#brackets" },
         { "include": "#literal-operators" },
-        { "include": "#literal-variable" }
+        { "include": "#literal-variable" },
+        { "include": "#literal-comma" }
+      ]
+    },
+    "ignore-long-lines": {
+      "comment": "long lines shouldn't be parsed for performance reasons as regex's are per line",
+      "comment": "so set at arbitary 1000 chars to avoid parsing minified files",
+      "patterns": [
+        {
+          "match": "^(?:).{1000,}"
+        }
       ]
     },
     "literal-function-labels": {
@@ -184,18 +195,37 @@
     "literal-labels": {
       "patterns": [
         {
-          "begin": "(?<!\\?)(?<!\\?\\s)(?=(((')((?:[^']|\\\\')*)('))|((\")((?:[^\"]|\\\\\")*)(\")))\\s*:)",
-          "end": ":",
+          "comment": "string as a property name",
+          "match": "\\s*(?<!\\.|\\?|\\?\\s|\\?\\s\\s)(((\\\")(\\\\.|[^\\\\\"])*(\\\"))|((')(\\\\.|[^\\\\'])*(')))\\s*(:)",
+          "captures": {
+            "1": { "name": "constant.other.object.key.js" },
+            "2": { "name": "string.quoted.double.js" },
+            "3": { "name": "punctuation.definition.string.begin.js" },
+            "5": { "name": "punctuation.definition.string.end.js" },
+            "6": { "name": "string.quoted.single.js" },
+            "7": { "name": "punctuation.definition.string.begin.js" },
+            "9": { "name": "punctuation.definition.string.end.js" },
+            "10": { "name": "punctuation.separator.key-value.js" }
+          }
+        },
+        {
+          "comment": "[something] : as  property name",
+          "begin": "\\s*(?<!\\.|\\?|\\?\\s|\\?\\s\\s)(\\[)(?=(?:[^\\[]+)*?\\]\\s*(:)(?=\\s*\\S))",
+          "end": "\\s*(\\])\\s*(:)",
+          "beginCaptures": {
+            "1": { "name": "meta.brace.square.js" }
+          },
           "endCaptures": {
-            "0": { "name": "punctuation.separator.key-value.js" }
+            "1": { "name": "meta.brace.square.js" },
+            "2": { "name": "punctuation.separator.key-value.js" }
           },
           "patterns": [
-            { "include": "#literal-string" }
+            { "include": "#expression"}
           ]
         },
         {
           "name": "constant.other.object.key.js",
-          "match": "(?<!\\.|\\?|\\?\\s)\\s*([_$a-zA-Z][$\\w]*)\\s*(:)",
+          "match": "\\s*(?<!\\.|\\?|\\?\\s|\\?\\s\\s)\\s*([_$a-zA-Z][$\\w]*)\\s*(:)",
           "captures": {
             "1": { "name": "string.unquoted.js" },
             "2": { "name": "punctuation.separator.key-value.js" }
@@ -481,10 +511,20 @@
     },
     "literal-punctuation": {
       "patterns": [
+        { "include": "#literal-semi-colon"} ,
+        { "include": "#literal-comma" }
+      ]
+    },
+    "literal-semi-colon": {
+      "patterns": [
         {
           "name": "punctuation.terminator.statement.js",
           "match": "\\s*\\;"
-        },
+        }
+      ]
+    },
+    "literal-comma": {
+      "patterns": [
         {
           "name": "meta.delimiter.comma.js",
           "match": "\\s*,"
@@ -502,7 +542,7 @@
             "1": { "name": "storage.type.js" }
           },
           "endCaptures": {
-            "0": { "name": "punctuationterminator.statement.js" }
+            "0": { "name": "punctuation.terminator.statement.js" }
           },
           "patterns": [
             { "include": "#flowtype-variable" }
@@ -517,7 +557,7 @@
             "1": { "name": "storage.type.js" }
           },
           "endCaptures": {
-            "0": { "name": "punctuationterminator.statement.js" }
+            "0": { "name": "punctuation.terminator.statement.js" }
           },
           "patterns": [
             { "include": "#flowtype-destruct-lhs" }
@@ -532,7 +572,7 @@
             "1": { "name": "storage.type.js" }
           },
           "endCaptures": {
-            "0": { "name": "punctuationterminator.statement.js" }
+            "0": { "name": "punctuation.terminator.statement.js" }
           },
           "patterns": [
             { "include": "#flowtype-destruct-lhs" }
@@ -652,7 +692,8 @@
               "patterns": [
                 { "include": "#expression" }
               ]
-            }
+            },
+            { "include": "#string-content" }
           ]
         }
       ]
@@ -689,7 +730,7 @@
         },
         {
           "name": "keyword.operator.arithmetic.js",
-          "match": "\\s*(--|\\+\\+|/[^/]|%|\\*|\\+|-)"
+          "match": "\\s*(--|\\+\\+|/(?!/|\\*)|%|\\*(?<!/\\*)|\\+|-)"
         },
         {
           "comment": "ternary operator - make sure end : is consumed to avoid mistake as flow type",
@@ -702,7 +743,6 @@
             "1": { "name": "keyword.operator.ternary.js" }
           },
           "patterns": [
-            { "include": "#ternary-function-call" },
             { "include": "#expression" }
           ]
         },
@@ -716,59 +756,50 @@
         }
       ]
     },
-    "ternary-function-call": {
-      "comment": "special pattern of function calls that doesn't call #flowtype",
-      "comment": "as this assumes the : following a ) : is a return type",
-      "patterns": [
-        {
-          "name": "meta.function-call.without-arguments.js",
-          "begin": "\\s*([_$a-zA-Z][$\\w]*)\\s*(?=\\(\\s*\\))",
-          "end": "\\s*(?<=\\))",
-          "beginCaptures": {
-            "1": { "name": "entity.name.function.js" }
-          },
-          "patterns": [
-            { "include": "#flowtype-bracketed-parameters" }
-          ]
-        },
-        {
-          "name": "meta.function-call.with-arguments.js",
-          "begin": "\\s*([_$a-zA-Z][$\\w]*)\\s*(?=\\()",
-          "end": "\\s*(?<=\\))",
-          "applyEndPatternLast": 1,
-          "beginCaptures": {
-            "1": { "name": "entity.name.function.js" }
-          },
-          "patterns": [
-            { "include": "#flowtype-bracketed-parameters" }
-          ]
-        }
-      ]
-    },
     "literal-function-call": {
+      "comment": "maybe in array form e.g. foo[bar]()",
       "patterns": [
         {
           "name": "meta.function-call.without-arguments.js",
           "begin": "\\s*([_$a-zA-Z][$\\w]*)\\s*(?=\\(\\s*\\))",
-          "end": "\\s*(?=.)",
-          "applyEndPatternLast": 1,
+          "end": "\\s*(?<=\\))",
           "beginCaptures": {
             "1": { "name": "entity.name.function.js" }
           },
           "patterns": [
-            { "include": "#flowtype" }
+            { "include": "#flowtype-bracketed-parameters" }
+          ]
+        },
+        {
+          "name": "meta.function-call.without-arguments.js",
+          "begin": "\\s*(?=(\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])\\s*\\(\\s*\\))",
+          "end": "(?=.)",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            { "include": "#flowtype-parse-array"},
+            { "include": "#flowtype-bracketed-parameters" }
           ]
         },
         {
           "name": "meta.function-call.with-arguments.js",
           "begin": "\\s*([_$a-zA-Z][$\\w]*)\\s*(?=\\()",
-          "end": "\\s*(?=.)",
+          "end": "(?=.)",
           "applyEndPatternLast": 1,
           "beginCaptures": {
             "1": { "name": "entity.name.function.js" }
           },
           "patterns": [
-            { "include": "#flowtype" }
+            { "include": "#flowtype-bracketed-parameters" }
+          ]
+        },
+        {
+          "name": "meta.function-call.without-arguments.js",
+          "begin": "\\s*(?=(\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])\\s*\\()",
+          "end": "(?=.)",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            { "include": "#flowtype-parse-array"},
+            { "include": "#flowtype-bracketed-parameters" }
           ]
         }
       ]
@@ -809,7 +840,7 @@
         },
         {
           "name": "support.function.mutator.js",
-          "match": "\\.(shift|sort|splice|unshift|pop|push|reverse)\\b"
+          "match": "(?<=\\.)(shift|sort|splice|unshift|pop|push|reverse)\\b"
         },
         {
           "name": "support.class.error.js",
@@ -916,8 +947,8 @@
                 { "include": "#brackets" },
                 { "include": "#es7-decorators" },
                 { "include": "#comments" },
-                { "include": "#flowtype-variable" }
-
+                { "include": "#flowtype-variable" },
+                { "include": "#literal-semi-colon"}
               ]
             },
             { "include": "#expression" }
@@ -1003,7 +1034,7 @@
           "match": "\\\\\\s*\\n"
         },
         { "name": "constant.character.escape",
-          "match": "\\\\['|\"|\\\\|n|r|t|b|f|0]"
+          "match": "\\\\['|\"|\\\\|n|r|t|b|f|v|0]"
         },
         { "name": "constant.character.escape",
           "match": "\\\\u((\\{[0-9a-fA-F]+\\})|[0-9a-fA-F]{4})"
@@ -1016,26 +1047,35 @@
     "literal-number": {
       "patterns": [
         {
-          "name": "invalid.illegal.numeric.hex.js",
-          "match": "\\s*(?i)(?:\\B[-+]|\\b)0x[0-9a-f]*\\.(\\B|\\b[0-9]+)"
+          "match": "\\s*((?i)(?:\\B[-+]|\\b)0x[0-9a-f]*\\.(\\B|\\b[0-9]+))",
+          "captures": {
+            "1": { "name": "invalid.illegal.numeric.hex.js" }
+          }
         },
         {
-          "name": "invalid.illegal.numeric.octal.js",
-          "match": "\\s*(?:\\B[-+]|\\b)0[0-9]+\\.(\\B|\\b[0-9]+)"
+          "match": "\\s*((?:\\B[-+]|\\b)0[0-9]+\\.(\\B|\\b[0-9]+))",
+          "captures": {
+            "1": { "name": "invalid.illegal.numeric.octal.js" }
+          }
         },
         {
-          "name": "constant.numeric.js",
-          "match": "\\s*(?:\\B[-+])?(?:\\b0b[0-1]*|\\b0o[0-7]*|\\b0x[0-9a-f]*|(\\B\\.[0-9]+|\\b[0-9]+(\\.[0-9]*)?)(e[-+]?[0-9]+)?)"
+          "match": "\\s*((?:\\B[-+])?(?:\\b0b[0-1]*|\\b0o[0-7]*|\\b0x[0-9a-f]*|(\\B\\.[0-9]+|\\b[0-9]+(\\.[0-9]*)?)(e[-+]?[0-9]+)?))",
+          "captures": {
+            "1": { "name": "constant.numeric.js" }
+          }
         },
         {
-          "name": "constant.language.infinity.js",
-          "match": "\\s*(?:\\B[-+]|\\b)(Infinity)\\b"
+          "match": "\\s*((?:\\B[-+]|\\b)(Infinity)\\b)",
+          "captures": {
+            "1": { "name": "constant.language.infinity.js" }
+          }
         }
       ]
     },
     "literal-constructor": {
       "patterns": [
         {
+          "disabled": 1,
           "name": "meta.instance.constructor",
           "begin": "\\s*(new)\\s+(?=[_$a-zA-Z][$\\w.]*)",
           "end": "(?![_$a-zA-Z][$\\w.]*)",
@@ -1304,30 +1344,34 @@
     "literal-string": {
       "patterns": [
         {
-          "name": "string.quoted.single.js",
-          "begin": "\\s*'",
-          "end": "(')|(\\n)",
+          "contentName": "string.quoted.single.js",
+          "begin": "\\s*(('))",
+          "end": "(('))|(\\n)",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.js" }
+            "1": { "name": "string.quoted.single.js" },
+            "2": { "name": "punctuation.definition.string.begin.js" }
           },
           "endCaptures": {
-            "1": { "name": "punctuation.definition.string.end.js" },
-            "2": { "name": "invalid.illegal.newline.js" }
+            "1": { "name": "string.quoted.single.js" },
+            "2": { "name": "punctuation.definition.string.end.js" },
+            "3": { "name": "invalid.illegal.newline.js" }
           },
           "patterns": [
             { "include": "#string-content" }
           ]
         },
         {
-          "name": "string.quoted.double.js",
-          "begin": "\\s*\"",
-          "end": "(\")|(\\n)",
+          "contentName": "string.quoted.double.js",
+          "begin": "\\s*((\"))",
+          "end": "((\"))|(\\n)",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.js" }
+            "1": { "name": "string.quoted.double.js" },
+            "2": { "name": "punctuation.definition.string.begin.js" }
           },
           "endCaptures": {
-            "1": { "name": "punctuation.definition.string.end.js" },
-            "2": { "name": "invalid.illegal.newline.js" }
+            "1": { "name": "string.quoted.double.js" },
+            "2": { "name": "punctuation.definition.string.end.js" },
+            "3": { "name": "invalid.illegal.newline.js" }
           },
           "patterns": [
             { "include": "#string-content" }
@@ -1339,7 +1383,11 @@
       "patterns": [
         {
           "name": "keyword.control.module.js",
-          "match": "\\s*(?<!\\.)\\b(import|export|default|from|as)\\b"
+          "match": "\\s*(?<!\\.)\\b(import|export|default)\\b"
+        },
+        {
+          "name": "keyword.control.module.reference.js",
+          "match": "\\s*(?<!\\.)\\b(from|as)\\b"
         }
       ]
     },
@@ -1353,10 +1401,7 @@
         {
           "comment": "e.g. dollar vars",
           "name": "variable.other.dollar.js",
-          "match": "\\s*(\\$)[$\\w]+",
-          "captures": {
-            "0": { "name": "punctuation.dollar.js" }
-          }
+          "match": "\\s*\\$[$\\w]*"
         },
         {
           "comment": "e.g. Class.property",
@@ -1432,8 +1477,16 @@
       "comment": "and the ECMA6 draft here http://people.mozilla.org/~jorendorff/es6-draft.html",
       "comment": "together with the Unicode Spec http://www.unicode.org/reports/tr31/",
       "comment": "but excludes using unicode esc characters, <ZWNJ> and <ZWJ> as per the draft. Will anyone use these?",
+      "comment": "Avoid < operator expressions as best we can using Zertosh's regex",
       "patterns": [
-        { "include": "#jsx-tag-element-name" }
+        {
+          "begin": "(?<=\\(|\\{|\\[|,|&&|\\|\\||\\?|:|=|=>|\\Wreturn|^return|^)\\s*(?=<[_$a-zA-Z])",
+          "end": "(?=.)",
+          "applyEndPatternLast": 1,
+          "patterns": [
+            { "include": "#jsx-tag-element-name" }
+          ]
+        }
       ]
     },
     "jsx-tag-element-name": {
@@ -1444,17 +1497,17 @@
           "comment": "as well as terminating a <JSXElementName /> form",
           "comment": "Tags that end > are trapped in #jsx-tag-termination",
           "name": "meta.tag.jsx",
-          "begin": "\\s*(<)([$_\\p{L}](?:[$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}-](?<!\\.\\.))*+)(?=[ />\\t\\n])(?<!\\.)",
-          "end": "\\s*(</)(\\2)(>)|(/>)",
+          "begin": "\\s*(<)([$_\\p{L}](?:[$.:\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}-](?<!\\.\\.))*+)(?=[/>\\s])(?<![\\.:])",
+          "end": "\\s*(?<=</)(\\2)(>)|(/>)|((?<=</)[\\S ]*?)>",
           "beginCaptures": {
             "1": { "name": "punctuation.definition.tag.jsx" },
             "2": { "name": "entity.name.tag.open.jsx" }
           },
           "endCaptures": {
-            "1": { "name": "punctuation.definition.tag.jsx" },
-            "2": { "name": "entity.name.tag.close.jsx" },
+            "1": { "name": "entity.name.tag.close.jsx" },
+            "2": { "name": "punctuation.definition.tag.jsx" },
             "3": { "name": "punctuation.definition.tag.jsx" },
-            "4": { "name": "punctuation.definition.tag.jsx" }
+            "4": { "name": "invalid.illegal.termination.jsx"}
           },
           "patterns": [
             { "include": "#jsx-tag-termination" },
@@ -1468,10 +1521,15 @@
         {
           "comment": "this matches the end > of an opening tag when in the form <tag> </tag>",
           "comment": "uses non consuming search for </ in </tag>",
-          "begin": ">",
-          "end": "(?=</)",
+          "begin": "(>)",
+          "end": "(</)",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.tag.jsx" }
+            "0": { "name": "punctuation.definition.tag.jsx" },
+            "1": { "name": "JSXStartTagEnd" }
+          },
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.tag.jsx" },
+            "1": { "name": "JSXEndTagStart" }
           },
           "patterns": [
             { "include": "#jsx-evaluated-code" },
@@ -1669,7 +1727,9 @@
             "2": { "name": "variable.other.property.js" }
           }
         },
-        { "match": "\\s*," },
+        {
+          "include": "#literal-comma"
+        },
         { "include": "#flowtype-vars-and-props" }
       ]
     },
@@ -1693,15 +1753,19 @@
           ]
         },
         {
-          "comment": "commas",
-          "match": "\\s*,"
+          "include": "#literal-comma"
         },
         {
           "comment": "An Iterator prefix?",
           "match": "\\s*@@"
         },
+        {
+          "match": "\\s*(=>)",
+          "captures": {
+            "1":  { "name": "storage.type.function.arrow.js" }
+          }
+        },
         { "include": "#flowtype-bracketed-parameters" },
-        { "include": "#flowtype-parse-operators" },
         { "include": "#flowtype-parse-array" },
         { "include": "#expression" }
       ]
@@ -1748,16 +1812,17 @@
             "comment": "primitive flowtypes",
             "match": "\\s*\\b((?>any|boolean|mixed|number|string|void))\\b",
             "captures": {
-              "1": { "name": "support.type.builtin.primitve.flowtype" }
+              "1": { "name": "support.type.builtin.primitive.flowtype" }
             }
           },
           {
             "comment": "Built-in Class Types",
-            "match": "\\s*\\b((?>Boolean|Function|Number|Object|Promise|String))\\b",
+            "match": "\\s*\\b((?>ArrayBuffer|ArrayBufferView|Boolean|Date|DataView|Error|EvalError|Float32Array|Float64Array|Function|Int8Array|Int16Array|Int32Array|JSON|Math|Number|Object|RangeError|ReferenceError|RegExp|String|Symbol|TypeError|Uint8Array|Uint16Array|Uint32Array|Uint8ClampedArray))\\b",
             "captures": {
               "1": { "name": "support.type.builtin.class.flowtype" }
             }
           },
+          { "include": "#flowtype-polymorphs" },
           {
             "comment": "custom Class Types e.g. Abc avoid Abc(",
             "match": "\\s*([$_[\\p{Lu}\\p{Lt}\\p{Lm}\\p{Lo}]][$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}]*+)(?!\\s*\\()",
@@ -1789,7 +1854,6 @@
           },
           { "include": "#literal-string" },
           { "include": "#literal-number" },
-          { "include": "#flowtype-polymorphs" },
           { "include": "#flowtype-bracketed-parameters" },
           { "include": "#flowtype-parse-objects" },
           { "include": "#flowtype-parse-operators" },
@@ -1820,10 +1884,10 @@
       "patterns": [
         {
           "comment": "Built-in Class Types with elements of type <T>",
-          "begin": "\\s*\\b((?>Array|Class))\\s*(<)",
+          "begin": "\\s*\\b((?>Array|Class|Map|Promise|Set|WeakMap|WeakSet))\\s*(<)",
           "end": "\\s*(>)",
           "beginCaptures": {
-            "1": { "name": "support.type.builtin.flowtype" },
+            "1": { "name": "support.type.builtin.class.flowtype" },
             "2": { "name": "punctuation.flowtype" }
           },
           "endCaptures"     : {

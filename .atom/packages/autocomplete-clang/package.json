@@ -1,12 +1,12 @@
 {
   "name": "autocomplete-clang",
   "main": "./lib/autocomplete-clang",
-  "version": "0.8.7",
+  "version": "0.8.9",
   "description": "autocomplete for C/C++/ObjC using clang",
   "activationCommands": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yasuyuky/autocomplete-clang"
+    "url": "git+https://github.com/yasuyuky/autocomplete-clang.git"
   },
   "license": "MIT",
   "engines": {
@@ -27,11 +27,11 @@
   "bugs": {
     "url": "https://github.com/yasuyuky/autocomplete-clang/issues"
   },
-  "homepage": "https://github.com/yasuyuky/autocomplete-clang",
-  "_id": "autocomplete-clang@0.8.7",
-  "_shasum": "34798e44d7203e30dadc6f9ce7054fe09b89295f",
-  "_resolved": "file:../d-11577-14288-1ymy99n/package.tgz",
-  "_from": "../d-11577-14288-1ymy99n/package.tgz",
+  "homepage": "https://github.com/yasuyuky/autocomplete-clang#readme",
+  "_id": "autocomplete-clang@0.8.9",
+  "_shasum": "c77ccaeb526ba0f40270d3682efa47a74fd5bec2",
+  "_resolved": "file:../d-116010-7306-ucz230/package.tgz",
+  "_from": "../d-116010-7306-ucz230/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [

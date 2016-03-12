@@ -1,3 +1,11 @@
+## 0.8.9
+* Add check for autocomplete-plus minimumWordLength
+* Add current directory to include path
+
+## 0.8.8
+* Add support for showing brief documentation comments
+* Fix loading std config
+
 ## 0.8.7
 * Remove the word 'returns' from right label
 * Improve completions to include completions without patterns

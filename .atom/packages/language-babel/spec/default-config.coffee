@@ -5,7 +5,6 @@ module.exports =
   babelMapsAddUrl: true
   babelMapsPath: ''
   babelSourcePath: ''
-  babelStage: 2
   babelTranspilePath: ''
   createMap: false
   createTargetDirectories: false
@@ -14,10 +13,4 @@ module.exports =
   suppressSourcePathMessages: false
   suppressTranspileOnSaveMessages: false
   transpileOnSave: true
-  # babel options in package settings
-  blacklistTransformers: []
-  externalHelpers: false
-  looseTransformers: []
-  moduleLoader: 'common'
-  optionalTransformers: []
-  whitelistTransformers: []
+  autoIndentJSX: true

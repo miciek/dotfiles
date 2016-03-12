@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/Users/michal.plachta/workspace/miciek.github.io/_includes'
+let g:netrw_dirhist_2='/Users/michal.plachta/workspace/api-contract/src/main/resources/api-contract/schemas/v1/command-complete-event'
+let g:netrw_dirhist_3='/Users/michal.plachta/workspace/stations/warehouse-stations-parent'
+let g:netrw_dirhist_4='/Users/michal.plachta/workspace/stations/station-gui/test/e2e/src'

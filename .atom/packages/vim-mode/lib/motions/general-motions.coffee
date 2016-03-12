@@ -60,7 +60,7 @@ class Motion
       if wasReversed and not isReversed
         newStartRow = Math.min(newStartRow, oldEndRow)
 
-      selection.setBufferRange([[newStartRow, 0], [newEndRow + 1, 0]])
+      selection.setBufferRange([[newStartRow, 0], [newEndRow + 1, 0]], autoscroll: false)
 
   moveSelectionInclusively: (selection, count, options) ->
     return @moveSelectionVisual(selection, count, options) unless selection.isEmpty()
@@ -451,54 +451,67 @@ class MoveToMiddleOfScreen extends MoveToScreenLine
     height = lastScreenRow - firstScreenRow
     Math.floor(firstScreenRow + (height / 2))
 
-class ScrollKeepingCursor extends MoveToLine
-  previousFirstScreenRow: 0
-  currentFirstScreenRow: 0
+class ScrollKeepingCursor extends Motion
+  operatesLinewise: true
+  cursorRow: null
 
   constructor: (@editorElement, @vimState) ->
     super(@editorElement.getModel(), @vimState)
 
   select: (count, options) ->
-    finalDestination = @scrollScreen(count)
-    super(count, options)
-    @editor.setScrollTop(finalDestination)
+    # TODO: remove this conditional once after Atom v1.1.0 is released.
+    if @editor.setFirstVisibleScreenRow?
+      newTopRow = @getNewFirstVisibleScreenRow(count)
+      super(count, options)
+      @editor.setFirstVisibleScreenRow(newTopRow)
+    else
+      scrollTop = @getNewScrollTop(count)
+      super(count, options)
+      @editorElement.setScrollTop(scrollTop)
 
   execute: (count) ->
-    finalDestination = @scrollScreen(count)
-    super(count)
-    @editor.setScrollTop(finalDestination)
+    # TODO: remove this conditional once after Atom v1.1.0 is released.
+    if @editor.setFirstVisibleScreenRow?
+      newTopRow = @getNewFirstVisibleScreenRow(count)
+      super(count)
+      @editor.setFirstVisibleScreenRow(newTopRow)
+    else
+      scrollTop = @getNewScrollTop(count)
+      super(count)
+      @editorElement.setScrollTop(scrollTop)
 
-  moveCursor: (cursor, count=1) ->
-    cursor.setScreenPosition([@getDestinationRow(count), 0])
+  moveCursor: (cursor) ->
+    cursor.setScreenPosition(Point(@cursorRow, 0), autoscroll: false)
 
-  getDestinationRow: (count) ->
-    {row, column} = @editor.getCursorScreenPosition()
-    @currentFirstScreenRow - @previousFirstScreenRow + row
+  # TODO: remove this method once after Atom v1.1.0 is released.
+  getNewScrollTop: (count=1) ->
+    currentScrollTop = @editorElement.component.presenter.pendingScrollTop ? @editorElement.getScrollTop()
+    currentCursorRow = @editor.getCursorScreenPosition().row
+    rowsPerPage = @editor.getRowsPerPage()
+    lineHeight = @editor.getLineHeightInPixels()
+    scrollRows = Math.floor(@pageScrollFraction * rowsPerPage * count)
+    @cursorRow = currentCursorRow + scrollRows
+    currentScrollTop + scrollRows * lineHeight
 
-  scrollScreen: (count=1) ->
-    @previousFirstScreenRow = @editorElement.getFirstVisibleScreenRow()
-    destination = @scrollDestination(count)
-    @editor.setScrollTop(destination)
-    @currentFirstScreenRow = @editorElement.getFirstVisibleScreenRow()
-    destination
+  getNewFirstVisibleScreenRow: (count=1) ->
+    currentTopRow = @editor.getFirstVisibleScreenRow()
+    currentCursorRow = @editor.getCursorScreenPosition().row
+    rowsPerPage = @editor.getRowsPerPage()
+    scrollRows = Math.ceil(@pageScrollFraction * rowsPerPage * count)
+    @cursorRow = currentCursorRow + scrollRows
+    currentTopRow + scrollRows
 
 class ScrollHalfUpKeepCursor extends ScrollKeepingCursor
-  scrollDestination: (count) ->
-    half = (Math.floor(@editor.getRowsPerPage() / 2) * @editor.getLineHeightInPixels())
-    @editor.getScrollTop() - count * half
+  pageScrollFraction: -1 / 2
 
 class ScrollFullUpKeepCursor extends ScrollKeepingCursor
-  scrollDestination: (count) ->
-    @editor.getScrollTop() - (count * @editor.getHeight())
+  pageScrollFraction: -1
 
 class ScrollHalfDownKeepCursor extends ScrollKeepingCursor
-  scrollDestination: (count) ->
-    half = (Math.floor(@editor.getRowsPerPage() / 2) * @editor.getLineHeightInPixels())
-    @editor.getScrollTop() + count * half
+  pageScrollFraction: 1 / 2
 
 class ScrollFullDownKeepCursor extends ScrollKeepingCursor
-  scrollDestination: (count) ->
-    @editor.getScrollTop() + (count * @editor.getHeight())
+  pageScrollFraction: 1
 
 module.exports = {
   Motion, MotionWithInput, CurrentSelection, MoveLeft, MoveRight, MoveUp, MoveDown,

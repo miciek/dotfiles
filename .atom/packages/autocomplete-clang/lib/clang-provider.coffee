@@ -23,7 +23,12 @@ class ClangProvider
     language = LanguageUtil.getSourceScopeLang(@scopeSource, scopeDescriptor.getScopesArray())
     prefix = LanguageUtil.prefixAtPosition(editor, bufferPosition)
     [symbolPosition,lastSymbol] = LanguageUtil.nearestSymbolPosition(editor, bufferPosition)
-    return if lastSymbol == ';'
+    minimumWordLength = atom.config.get('autocomplete-plus.minimumWordLength')
+
+    if minimumWordLength? and prefix.length < minimumWordLength
+      regex = /(?:\.|->|::)\s*\w*$/
+      line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
+      return unless regex.test(line)
 
     if language?
       @codeCompletionAt(editor, symbolPosition.row, symbolPosition.column, language).then (suggestions) =>
@@ -57,14 +62,16 @@ class ClangProvider
   lineRe: /COMPLETION: ([^:]+)(?: : (.+))?$/
   returnTypeRe: /\[#([^#]+)#\]/ig
   argumentRe: /\<#([^#]+)#\>/ig
+  commentSplitRe: /(?: : (.+))?$/
   convertCompletionLine: (s) ->
     match = s.match(@lineRe)
     if match?
       [line, completion, pattern] = match
       unless pattern?
         return {snippet:completion,text:completion}
+      [patternNoComment, briefComment] = pattern.split @commentSplitRe
       returnType = null
-      patternNoType = pattern.replace @returnTypeRe, (match, type) ->
+      patternNoType = patternNoComment.replace @returnTypeRe, (match, type) ->
         returnType = type
         ''
       index = 0
@@ -78,6 +85,7 @@ class ClangProvider
         suggestion.snippet = replacement
       else
         suggestion.text = replacement
+      suggestion.description = briefComment if briefComment?
       suggestion
 
   handleCompletionResult: (result,returnCode) ->
@@ -93,11 +101,17 @@ class ClangProvider
     location = "-:#{row + 1}:#{column + 1}"
     args.push("-code-completion-at=#{location}")
 
-    pchPath = path.join(path.dirname(editor.getPath()), 'test.pch')
+    if atom.config.get("autocomplete-clang.includeDocumentation")?
+      args = args.concat ["-Xclang", "-code-completion-brief-comments"]
+      args.push("-fparse-all-comments") if atom.config.get("autocomplete-clang.includeNonDoxygenCommentsAsDocumentation")
+
+    currentDir=path.dirname(editor.getPath())
+    pchPath = path.join(currentDir, 'test.pch')
     args = args.concat ["-include-pch", pchPath] if existsSync pchPath
-    std = atom.config.get "autocomplete-clang.std.#{language}"
+    std = atom.config.get "autocomplete-clang.std #{language}"
     args = args.concat ["-std=#{std}"] if std
     args = args.concat ("-I#{i}" for i in atom.config.get "autocomplete-clang.includePaths")
+    args.push("-I#{currentDir}")
     try
       clangflags = ClangFlags.getClangFlags(editor.getPath())
       args = args.concat clangflags if clangflags
@@ -113,12 +127,12 @@ LanguageUtil =
     null
 
   prefixAtPosition: (editor, bufferPosition) ->
-    regex = /[\w0-9_-]+$/ # whatever your prefix regex might be
+    regex = /\w+$/
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
     line.match(regex)?[0] or ''
 
   nearestSymbolPosition: (editor, bufferPosition) ->
-    regex = /([^\w0-9_]+)[\w0-9_]*$/
+    regex = /(\W+)\w*$/
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
     matches = line.match(regex)
     if matches

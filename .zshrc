@@ -88,6 +88,8 @@ fi
 
 # Docker setup
 if [[ "$platform" == 'mac' ]]; then
-    export DOCKER_HOST="tcp://$(boot2docker ip 2>/dev/null):2375";
+    eval "$(docker-machine env default)"
 fi
 
+# Custom stuff
+export PATH=$PATH:/Users/michal.plachta/workspace/dtools/

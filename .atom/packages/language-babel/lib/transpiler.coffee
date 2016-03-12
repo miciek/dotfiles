@@ -1,6 +1,8 @@
+{Task} = require 'atom'
 fs = require 'fs-plus'
 path = require 'path'
-pathIsInside = require 'path-is-inside'
+pathIsInside = require '../node_modules/path-is-inside'
+
 # setup JSON Schema to parse .languagebabel configs
 languagebabelSchema = {
   type: 'object',
@@ -13,6 +15,7 @@ languagebabelSchema = {
     createTargetDirectories:          { type: 'boolean' },
     createTranspiledCode:             { type: 'boolean' },
     disableWhenNoBabelrcFileInPath:   { type: 'boolean' },
+    projectRoot:                      { type: 'boolean' },
     suppressSourcePathMessages:       { type: 'boolean' },
     suppressTranspileOnSaveMessages:  { type: 'boolean' },
     transpileOnSave:                  { type: 'boolean' }
@@ -21,9 +24,52 @@ languagebabelSchema = {
 }
 
 class Transpiler
+
+  fromGrammarName: 'Babel ES6 JavaScript'
+  fromScopeName: 'source.js.jsx'
+  toScopeName: 'source.js.jsx'
+
   constructor: ->
+    @reqId = 0
+    @babelTranspilerTasks = {}
+    @babelTransformerPath = require.resolve './transpiler-task'
     @transpileErrorNotifications = {}
     @deprecateConfig()
+
+  # method used by source-preview to see transpiled code
+  transform: (code, {filePath, sourceMap}) ->
+    config = @getConfig()
+    pathTo = @getPaths filePath, config
+    # create babel transformer tasks - one per project as needed
+    @createTask pathTo.projectPath
+    babelOptions =
+      filename: filePath
+      sourceMaps: sourceMap ? false
+      ast: false
+    # ok now transpile in the task and wait on the result
+    if @babelTranspilerTasks[pathTo.projectPath]
+      reqId = @reqId++
+      msgObject =
+        reqId: reqId
+        command: 'transpileCode'
+        pathTo: pathTo
+        code: code
+        babelOptions: babelOptions
+
+    new Promise (resolve, reject ) =>
+      # transpile in task
+      try
+        @babelTranspilerTasks[pathTo.projectPath].send(msgObject)
+      catch err
+        delete @babelTranspilerTasks[pathTo.projectPath]
+        reject("Error #{err} sending to transpile task with PID #{@babelTranspilerTasks[pathTo.projectPath].childProcess.pid}")
+      # get result from task for this reqId
+      @babelTranspilerTasks[pathTo.projectPath].once "transpile:#{reqId}", (msgRet) =>
+        if msgRet.err?
+          reject("Babel v#{msgRet.babelVersion}\n#{msgRet.err.message}\n#{msgRet.babelCoreUsed}")
+        else
+          msgRet.sourceMap = msgRet.map
+          resolve(msgRet)
 
   # transpile sourceFile edited by the optional textEditor
   transpile: (sourceFile, textEditor) ->
@@ -32,7 +78,7 @@ class Transpiler
 
     if config.allowLocalOverride
       if not @jsonSchema?
-        @jsonSchema = (require 'jjv')() # use jjv as it runs without CSP issues
+        @jsonSchema = (require '../node_modules/jjv')() # use jjv as it runs without CSP issues
         @jsonSchema.addSchema 'localConfig', languagebabelSchema
       localConfig = @getLocalConfig pathTo.sourceFileDir, pathTo.projectPath, {}
       # merge local configs with global. local wins
@@ -48,7 +94,7 @@ class Transpiler
 
     if not pathIsInside(pathTo.sourceFile, pathTo.sourceRoot)
       if not config.suppressSourcePathMessages
-        atom.notifications.addWarning 'Babel file is not inside the "Babel Source Path" directory.',
+        atom.notifications.addWarning 'LB: Babel file is not inside the "Babel Source Path" directory.',
           dismissable: false
           detail: "No transpiled code output for file \n#{pathTo.sourceFile}
             \n\nTo suppress these 'invalid source path'
@@ -57,62 +103,115 @@ class Transpiler
 
     babelOptions = @getBabelOptions config
 
-    # remove previous transpile error notifications for this source file
+    @cleanNotifications(pathTo)
+
+    # create babel transformer tasks - one per project as needed
+    @createTask pathTo.projectPath
+
+    # ok now transpile in the task and wait on the result
+    if @babelTranspilerTasks[pathTo.projectPath]
+      reqId = @reqId++
+      msgObject =
+        reqId: reqId
+        command: 'transpile'
+        pathTo: pathTo
+        babelOptions: babelOptions
+
+      # transpile in task
+      try
+        @babelTranspilerTasks[pathTo.projectPath].send(msgObject)
+      catch err
+        console.log "Error #{err} sending to transpile task with PID #{@babelTranspilerTasks[pathTo.projectPath].childProcess.pid}"
+        delete @babelTranspilerTasks[pathTo.projectPath]
+        @createTask pathTo.projectPath
+        console.log "Restarted transpile task with PID #{@babelTranspilerTasks[pathTo.projectPath].childProcess.pid}"
+        @babelTranspilerTasks[pathTo.projectPath].send(msgObject)
+
+      # get result from task for this reqId
+      @babelTranspilerTasks[pathTo.projectPath].once "transpile:#{reqId}", (msgRet) =>
+        # .ignored is returned when .babelrc ignore/only flags are used
+        if msgRet.result?.ignored then return
+        if msgRet.err
+          if msgRet.err.stack
+            @transpileErrorNotifications[pathTo.sourceFile] =
+              atom.notifications.addError "LB: Babel Transpiler Error",
+                dismissable: true
+                detail: "#{msgRet.err.message}\n \n#{msgRet.babelCoreUsed}\n \n#{msgRet.err.stack}"
+          else
+            @transpileErrorNotifications[pathTo.sourceFile] =
+              atom.notifications.addError "LB: Babel v#{msgRet.babelVersion} Transpiler Error",
+                dismissable: true
+                detail: "#{msgRet.err.message}\n \n#{msgRet.babelCoreUsed}\n \n#{msgRet.err.codeFrame}"
+            # if we have a line/col syntax error jump to the position
+            if msgRet.err.loc?.line? and textEditor?
+              textEditor.setCursorBufferPosition [msgRet.err.loc.line-1, msgRet.err.loc.column]
+        else
+          if not config.suppressTranspileOnSaveMessages
+            atom.notifications.addInfo "LB: Babel v#{msgRet.babelVersion} Transpiler Success",
+              detail: "#{pathTo.sourceFile}\n \n#{msgRet.babelCoreUsed}"
+
+          if not config.createTranspiledCode
+            if not config.suppressTranspileOnSaveMessages
+              atom.notifications.addInfo 'LB: No transpiled output configured'
+            return
+          if pathTo.sourceFile is pathTo.transpiledFile
+            atom.notifications.addWarning 'LB: Transpiled file would overwrite source file. Aborted!',
+              dismissable: true
+              detail: pathTo.sourceFile
+            return
+
+          # write code and maps
+          if config.createTargetDirectories
+            fs.makeTreeSync( path.parse( pathTo.transpiledFile).dir)
+
+          # add source map url to code if file isn't ignored
+          if config.babelMapsAddUrl
+            msgRet.result.code = msgRet.result.code + '\n' + '//# sourceMappingURL='+pathTo.mapFile
+
+          fs.writeFileSync pathTo.transpiledFile, msgRet.result.code
+
+          # write source map if returned and if asked
+          if config.createMap and msgRet.result.map?.version
+            if config.createTargetDirectories
+              fs.makeTreeSync(path.parse(pathTo.mapFile).dir)
+            mapJson =
+              version: msgRet.result.map.version
+              sources:  pathTo.sourceFile
+              file: pathTo.transpiledFile
+              sourceRoot: ''
+              names: msgRet.result.map.names
+              mappings: msgRet.result.map.mappings
+            xssiProtection = ')]}\n'
+            fs.writeFileSync pathTo.mapFile,
+              xssiProtection + JSON.stringify mapJson, null, ' '
+
+  # clean notification messages
+  cleanNotifications: (pathTo) ->
+    # auto dismiss previous transpile error notifications for this source file
     if @transpileErrorNotifications[pathTo.sourceFile]?
       @transpileErrorNotifications[pathTo.sourceFile].dismiss()
       delete @transpileErrorNotifications[pathTo.sourceFile]
-    # babel-core seems to add a lot of time to atom loading so delay until needed
-    @babel ?= require('../node_modules/babel-core')
-    @babel.transformFile pathTo.sourceFile, babelOptions, (err,result) =>
-      # result.ignored is returned when .babelrc ignore/only flags are used
-      if result?.ignored? and result.ignored is true then return
-      if err
-        notification =atom.notifications.addError "Babel v#{@babel.version} Transpiler Error",
-          dismissable: true
-          detail: err.message
-        @transpileErrorNotifications[pathTo.sourceFile] = notification
-        # if we have a line/col syntax error jump to the position
-        if err.loc? and textEditor?
-          textEditor.setCursorBufferPosition [err.loc.line-1, err.loc.column-1]
-      else
-        if not config.suppressTranspileOnSaveMessages
-          atom.notifications.addInfo "Babel v#{@babel.version} Transpiler Success",
-            detail: pathTo.sourceFile
+    # remove any user dismissed notification object references
+    for sf, n of @transpileErrorNotifications
+      if n.dismissed
+        delete @transpileErrorNotifications[sf]
+    # FIX for atom notifications. dismissed noftifications via whatever means
+    # are never actually removed from memory. I consider this a memory leak
+    # See https://github.com/atom/atom/issues/8614 so remove any dismissed
+    # notification objects prefixed with a message prefix of LB: from memory
+    i = atom.notifications.notifications.length - 1
+    while i >= 0
+      if atom.notifications.notifications[i].dismissed and
+      atom.notifications.notifications[i].message.substring(0,3) is "LB:"
+        atom.notifications.notifications.splice i, 1
+      i--
 
-        if not config.createTranspiledCode
-          if not config.suppressTranspileOnSaveMessages
-            atom.notifications.addInfo 'No transpiled output configured'
-          return
-        if pathTo.sourceFile is pathTo.transpiledFile
-          atom.notifications.addWarning 'Transpiled file would overwrite source file. Aborted!',
-            dismissable: true
-            detail: pathTo.sourceFile
-          return
-
-        # write code and maps
-        if config.createTargetDirectories
-          fs.makeTreeSync( path.parse( pathTo.transpiledFile).dir)
-
-        # add source map url to code if file isn't ignored
-        if config.babelMapsAddUrl
-          result.code = result.code + '\n' + '//# sourceMappingURL='+pathTo.mapFile
-
-        fs.writeFileSync pathTo.transpiledFile, result.code
-
-        # write source map if returned and if asked
-        if config.createMap and result.map?.version
-          if config.createTargetDirectories
-            fs.makeTreeSync(path.parse(pathTo.mapFile).dir)
-          mapJson =
-            version: result.map.version
-            sources:  pathTo.sourceFile
-            file: pathTo.transpiledFile
-            sourceRoot: ''
-            names: result.map.names
-            mappings: result.map.mappings
-          xssiProtection = ')]}\n'
-          fs.writeFileSync pathTo.mapFile,
-            xssiProtection + JSON.stringify mapJson, null, ' '
+  # create babel transformer tasks - one per project as needed
+  createTask: (projectPath) ->
+    @babelTranspilerTasks[projectPath] ?=
+      Task.once @babelTransformerPath, projectPath, =>
+        # task ended
+        delete @babelTranspilerTasks[projectPath]
 
   # modifies config options for changed or deprecated configs
   deprecateConfig: ->
@@ -126,6 +225,18 @@ class Transpiler
     atom.config.unset('language-babel.supressSourcePathMessages')
     atom.config.unset('language-babel.useInternalScanner')
     atom.config.unset('language-babel.stopAtProjectDirectory')
+    # remove babel V5 options
+    atom.config.unset('language-babel.babelStage')
+    atom.config.unset('language-babel.externalHelpers')
+    atom.config.unset('language-babel.moduleLoader')
+    atom.config.unset('language-babel.blacklistTransformers')
+    atom.config.unset('language-babel.whitelistTransformers')
+    atom.config.unset('language-babel.looseTransformers')
+    atom.config.unset('language-babel.optionalTransformers')
+    atom.config.unset('language-babel.plugins')
+    atom.config.unset('language-babel.presets')
+    # remove old name indent options
+    atom.config.unset('language-babel.formatJSX')
 
   # calculate babel options based upon package config, babelrc files and
   # whether internalScanner is used.
@@ -133,23 +244,15 @@ class Transpiler
     # set transpiler options from package configuration.
     babelOptions =
       sourceMaps: config.createMap
-      blacklist: config.blacklistTransformers
-      loose: config.looseTransformers
-      optional: config.optionalTransformers
-      modules: config.moduleLoader
-      stage: config.babelStage
-      externalHelpers: config.externalHelpers
       code: true
-    # babel seems to treat an empty array of whitelists as don't apply any transforms
-    if config.whitelistTransformers.length > 0
-      babelOptions.whitelist = config.whitelistTransformers
-    return babelOptions
 
   # get global configuration for language-babel
   getConfig: -> atom.config.get('language-babel')
 
 # check for prescence of a .languagebabel file path fromDir toDir
 # read, validate and overwrite config as required
+# toDir is normally the implicit Atom project folders root but we
+# will stop of a projectRoot true is found as well
   getLocalConfig: (fromDir, toDir, localConfig) ->
     # get local path overides
     localConfigFile = '.languagebabel'
@@ -159,22 +262,28 @@ class Transpiler
       try
         jsonContent = JSON.parse fileContent
       catch err
-        atom.notifications.addError "#{localConfigFile} #{err.message}",
+        atom.notifications.addError "LB: #{localConfigFile} #{err.message}",
           dismissable: true
           detail: "File = #{languageBabelCfgFile}\n\n#{fileContent}"
         return
+
       schemaErrors = @jsonSchema.validate 'localConfig', jsonContent
       if schemaErrors
-        atom.notifications.addError "#{localConfigFile} configuration error",
+        atom.notifications.addError "LB: #{localConfigFile} configuration error",
           dismissable: true
           detail: "File = #{languageBabelCfgFile}\n\n#{fileContent}"
       else
         # merge local config. config closest sourceFile wins
+        # apart from projectRoot which wins on true
+        isProjectRoot = jsonContent.projectRoot
         @merge  jsonContent, localConfig
+        if isProjectRoot then jsonContent.projectRootDir = fromDir
         localConfig = jsonContent
     if fromDir isnt toDir
       # stop infinite recursion https://github.com/gandm/language-babel/issues/66
       if fromDir == path.dirname(fromDir) then return localConfig
+      # check projectRoot property and end recursion if true
+      if isProjectRoot then return localConfig
       return @getLocalConfig path.dirname(fromDir), toDir, localConfig
     else return localConfig
 
@@ -183,11 +292,20 @@ class Transpiler
   # and the roots of source, transpile path and maps paths defined in config
   getPaths:  (sourceFile, config) ->
     projectContainingSource = atom.project.relativizePath sourceFile
-    # if a project is in the root directory atom passes back a null for
-    # the project path. We need the real root
+    # Is the sourceFile located inside an Atom project folder?
     if projectContainingSource[0] is null
+      sourceFileInProject = false
+    else sourceFileInProject = true
+    # determines the project root dir from .languagebabel or from Atom
+    # if a project is in the root directory of atom passes back a null for
+    # the project path if the file isn't in a project folder
+    # so make the root dir that source file the project
+    if config.projectRootDir?
+      absProjectPath = path.normalize(config.projectRootDir)
+    else if projectContainingSource[0] is null
       absProjectPath = path.parse(sourceFile).root
-    else absProjectPath = path.normalize(projectContainingSource[0])
+    else
+      absProjectPath = path.normalize(projectContainingSource[0])
     relSourcePath = path.normalize(config.babelSourcePath)
     relTranspilePath = path.normalize(config.babelTranspilePath)
     relMapsPath = path.normalize(config.babelMapsPath)
@@ -201,6 +319,7 @@ class Transpiler
     absTranspiledFile = path.join(absTranspileRoot, relSourceRootToSourceFile , parsedSourceFile.name  + '.js')
     absMapFile = path.join(absMapsRoot, relSourceRootToSourceFile , parsedSourceFile.name  + '.js.map')
 
+    sourceFileInProject: sourceFileInProject
     sourceFile: sourceFile
     sourceFileDir: parsedSourceFile.dir
     mapFile: absMapFile
@@ -223,5 +342,28 @@ class Transpiler
   merge: (targetObj, sourceObj) ->
     for prop, val of sourceObj
       targetObj[prop] = val
+
+# stop transpiler task
+  stopTranspilerTask: (projectPath) ->
+    msgObject =
+      command: 'stop'
+    @babelTranspilerTasks[projectPath].send(msgObject)
+
+# stop all transpiler tasks
+  stopAllTranspilerTask: () ->
+    for projectPath, v of @babelTranspilerTasks
+      @stopTranspilerTask(projectPath)
+
+# stop unsued transpiler tasks if its path isn't present in a current
+# Atom project folder
+  stopUnusedTasks: () ->
+    atomProjectPaths = atom.project.getPaths()
+    for projectTaskPath,v of @babelTranspilerTasks
+      isTaskInCurrentProject = false
+      for atomProjectPath in atomProjectPaths
+        if pathIsInside(projectTaskPath, atomProjectPath)
+          isTaskInCurrentProject = true
+          break
+      if not isTaskInCurrentProject then @stopTranspilerTask(projectTaskPath)
 
 module.exports = Transpiler
