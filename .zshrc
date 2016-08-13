@@ -93,3 +93,4 @@ fi
 
 # Custom stuff
 export PATH=$PATH:/Users/michal.plachta/workspace/dtools/
+export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
