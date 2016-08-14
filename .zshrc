@@ -71,11 +71,7 @@ export EDITOR='vim'
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # z - jump around
-if [[ "$platform" == 'mac' ]]; then
-    . ~/Applications/Tools/z.sh
-elif [[ "$platform" == 'linux' ]]; then
-    . ~/Apps/tools/z.sh
-fi
+. $ZSH/z.sh
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
