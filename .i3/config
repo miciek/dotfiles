@@ -159,9 +159,6 @@ bar {
   }
 }
 
-# display setup (generated with arandr)
-exec_always --no-startup-id /etc/lightdm/display-setup.sh
-
 # mouse wheel like in Macs
 exec_always --no-startup-id "xmodmap -e 'pointer = 1 2 3 5 4'"
 
@@ -169,18 +166,15 @@ exec_always --no-startup-id "xmodmap -e 'pointer = 1 2 3 5 4'"
 exec_always xinput --set-prop 10 275 0.5
 
 # volume control (pactl required)
-bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume @DEFAULT_SINK@ -- '-5%'
-bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume @DEFAULT_SINK@ -- '+5%'
-bindsym XF86AudioMute exec /usr/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioLowerVolume exec amixer -c 0 sset Master 5%-
+bindsym XF86AudioRaiseVolume exec amixer -c 0 sset Master 5%+
+bindsym XF86AudioMute exec amixer -c 0 sset Master toggle
 
 # auto-lock and manual lock (xautolock required)
-#exec_always "xautolock -time 30 -locker 'gnome-screensaver-command --lock' &"
 bindsym Ctrl+$mod+l exec xautolock -locknow
 
-# key bindings for suspend with lock, shutdown and reboot (all added to sudoers file - visudo)
-bindsym Control+$mod+s exec gnome-screensaver-command -l && sudo /home/micio/.i3/suspend
-#bindsym Control+$mod+x exec sudo /home/micio/shutdown
-#bindsym Control+$mod+r exec sudo /home/micio/reboot
+# key bindings for suspend with lock
+bindsym Control+$mod+s exec gnome-screensaver-command -l && sudo pm-suspend
 
 # wifi control
 exec --no-startup-id nm-applet
