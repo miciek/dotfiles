@@ -82,11 +82,6 @@ export EDITOR='vim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Docker setup
-if [[ "$platform" == 'mac' ]]; then
-    eval "$(docker-machine env default)"
-fi
-
 # Custom stuff
 export PATH=$PATH:/Users/michal.plachta/workspace/dtools/
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
