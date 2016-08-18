@@ -20,6 +20,8 @@ font pango:Source Code Pro Regular 10
 # chose a FreeType font, such as:
 # font pango:DejaVu Sans Mono 10
 
+for_window [class="^.*"] border pixel 0 # disable window titlebars
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -164,6 +166,9 @@ exec_always --no-startup-id "xmodmap -e 'pointer = 1 2 3 5 4'"
 
 # mouse speed
 exec_always xinput --set-prop 10 275 0.5
+
+# wallpaper
+exec --no-startup-id feh --bg-fill ~/.dotfiles/wallpapers/Solarized-Mountains.png
 
 # volume control (pactl required)
 bindsym XF86AudioLowerVolume exec amixer -c 0 sset Master 5%-
