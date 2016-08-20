@@ -7,12 +7,13 @@
     enabled: true
   "copy-as-rtf": {}
   core:
+    autoHideMenuBar: true
     themes: [
       "one-dark-ui"
       "solarized-dark-syntax"
     ]
   editor:
-    fontSize: 13
+    fontFamily: "Source Code Pro Semibold"
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true
