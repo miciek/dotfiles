@@ -1,7 +1,7 @@
 #!/bin/bash
 
 INSTANCE="${BLOCK_INSTANCE}"
-URGENT_VALUE=95
+URGENT_VALUE=99
 
 if [[ "${INSTANCE}" = "" ]]; then
   INSTANCE="$HOME;free"

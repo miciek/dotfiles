@@ -31,7 +31,7 @@ if [[ "${SOURCE_TOTAL}" -le 0 ]]; then
   exit
 fi
 
-SOURCE_FREE=$(echo "${MEMORY_INFOS}" | grep -i "${SOURCE}available" | awk -F ':' '{print $2}' | tr -d ' kB')
+SOURCE_FREE=$(echo "${MEMORY_INFOS}" | grep -i "${SOURCE}free" | awk -F ':' '{print $2}' | tr -d ' kB')
 SOURCE_USED=$(echo "scale=0; ${SOURCE_TOTAL}-${SOURCE_FREE}" | bc -l)
 SOURCE_PERC=$(echo "scale=0; (${SOURCE_USED}*100)/${SOURCE_TOTAL}" | bc -l)
 
