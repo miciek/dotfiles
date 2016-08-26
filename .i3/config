@@ -78,9 +78,6 @@ exec_always ~/Apps/xflux -l 50.1212670 -g 19.7198360
 # go back to where you came from by pressing move binding again
 workspace_auto_back_and_forth yes
 
-# assign applications to named workspaces
-assign [class="Spotify"] 0
-
 # switch to workspace
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
@@ -119,11 +116,8 @@ workspace 5 output LVDS
 # start a terminal (urxvt)
 bindsym $mod+Return exec urxvt
 
-# start dmenu (a program launcher)
-bindsym $mod+space exec dmenu_run
-
 # start i3-dmenu-desktop (only apps shipping a .desktop file)
-bindsym $mod+Shift+space exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+space exec --no-startup-id i3-dmenu-desktop
 
 # kill focused window
 bindsym $mod+Shift+q kill
