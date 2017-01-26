@@ -85,3 +85,4 @@ export EDITOR='vim'
 # Custom stuff
 export PATH=$PATH:/Users/michal.plachta/workspace/dtools/
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH

@@ -8,12 +8,14 @@
   "copy-as-rtf": {}
   core:
     autoHideMenuBar: true
+    telemetryConsent: "no"
     themes: [
       "one-dark-ui"
       "solarized-dark-syntax"
     ]
   editor:
-    fontFamily: "Source Code Pro Semibold"
+    fontFamily: "Source Code Pro"
+    fontSize: 17
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true
