@@ -8,15 +8,20 @@
   "copy-as-rtf": {}
   core:
     autoHideMenuBar: true
+    disabledPackages: [
+      "tabs"
+    ]
     telemetryConsent: "no"
     themes: [
-      "one-dark-ui"
+      "solarized-dark-ui"
       "solarized-dark-syntax"
     ]
+    titleBar: "custom"
   editor:
     fontFamily: "Source Code Pro"
-    fontSize: 17
+    fontSize: 15
     invisibles: {}
+    preferredLineLength: 100
     showIndentGuide: true
     showInvisibles: true
     tabType: "soft"
@@ -24,6 +29,8 @@
     userId: "423d268c-8184-b9c3-9bff-086ac1a94261"
   "file-watcher":
     promptWhenFileHasChangedOnDisk: false
+  "git-diff":
+    showIconsInEditorGutter: true
   "ide-haskell": {}
   "ide-haskell-cabal":
     activeGhcVersion: "7.10"
@@ -32,12 +39,25 @@
     elmOraclePath: "/usr/local/bin/elm-oracle"
   metrics:
     userId: "7404821daf0272bfcbb90438a14a673eabb13e96"
+  minimap: {}
   nuclide:
     remoteProjectsConfig: []
+  "prettier-atom":
+    formatOnSaveOptions:
+      enabled: true
+    prettierOptions:
+      printWidth: 100
+  react:
+    enabledForAllJavascriptFiles: true
   "spell-check": {}
+  "terminal-plus":
+    core: {}
   "tree-view":
     hideVcsIgnoredFiles: true
   "vim-mode":
     useClipboardAsDefaultRegister: true
   welcome:
     showOnStartup: false
+".coffee.jsx.source":
+  editor:
+    scrollPastEnd: true
