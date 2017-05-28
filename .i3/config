@@ -56,6 +56,9 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # mouse wheel like in Macs
 exec_always --no-startup-id "xmodmap -e 'pointer = 1 2 3 5 4'"
 
+# Shift-F9 as Shift-Insert (for Mac keyboard support)
+exec_always --no-startup-id "xmodmap -e 'keycode 75 = Insert Insert Insert'"
+
 # mouse speed
 exec_always xinput --set-prop 10 275 0.5
 
