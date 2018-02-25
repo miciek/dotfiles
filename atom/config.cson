@@ -1,15 +1,25 @@
 "*":
+  "atom-ide-ui":
+    "atom-ide-code-format":
+      formatOnSave: true
+    use:
+      "atom-ide-diagnostics-ui": false
   "atom-material-ui": {}
   "autocomplete-clang": {}
   "autocomplete-haskell":
     useBackend: "haskell-ghc-mod"
   autosave:
     enabled: true
+  "browser-plus":
+    currentFile: false
   "copy-as-rtf": {}
   core:
     autoHideMenuBar: true
     disabledPackages: [
       "tabs"
+    ]
+    packagesWithKeymapsDisabled: [
+      "git-plus"
     ]
     telemetryConsent: "no"
     themes: [
@@ -25,21 +35,43 @@
     showIndentGuide: true
     showInvisibles: true
     tabType: "soft"
+  "elm-format":
+    autoJumpToSyntaxError: false
+    showErrorNotifications: false
+  elmjutsu:
+    autocompleteEnabled: true
+    autocompleteFuzzyFilteringEnabled: true
+    autocompleteSnippetsEnabled: true
+    cacheDirectory: "/var/folders/wy/wbdsvt711pgbpc3gfnc8lvg5lvjdq7/T/elmjutsu36595ArInvvCWbg7o"
+    globalAutocompleteEnabled: true
+    hyperclickEnabled: true
+    inferExpectedTypeAtCursorOnTheFly: true
+    inferTypeOfSelectionOnTheFly: true
+    showScopeBar: true
+    showTypesInTooltip: true
   "exception-reporting":
     userId: "423d268c-8184-b9c3-9bff-086ac1a94261"
   "file-watcher":
     promptWhenFileHasChangedOnDisk: false
   "git-diff":
     showIconsInEditorGutter: true
+  "git-plus":
+    experimental:
+      stageFilesBeta: false
+  "haskell-ghc-mod": {}
   "ide-haskell": {}
   "ide-haskell-cabal":
     activeGhcVersion: "7.10"
   "language-babel": {}
   "language-elm":
+    autocompleteEnabled: false
     elmOraclePath: "/usr/local/bin/elm-oracle"
+  "linter-ui-default":
+    panelHeight: 300
   metrics:
     userId: "7404821daf0272bfcbb90438a14a673eabb13e96"
-  minimap: {}
+  minimap:
+    displayCodeHighlights: false
   nuclide:
     remoteProjectsConfig: []
   "prettier-atom":
@@ -61,3 +93,6 @@
 ".coffee.jsx.source":
   editor:
     scrollPastEnd: true
+".elm.source":
+  editor:
+    autoIndentOnPaste: true

@@ -83,6 +83,8 @@ export EDITOR='vim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Custom stuff
+export PATH=$PATH:/Users/michal.plachta/.local/bin
 export PATH=$PATH:/Users/michal.plachta/workspace/dtools/
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=/usr/local/Cellar/node/8.5.0/bin:$PATH
