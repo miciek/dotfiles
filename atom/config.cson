@@ -53,6 +53,8 @@
     userId: "423d268c-8184-b9c3-9bff-086ac1a94261"
   "file-watcher":
     promptWhenFileHasChangedOnDisk: false
+  "fuzzy-finder":
+    preserveLastSearch: true
   "git-diff":
     showIconsInEditorGutter: true
   "git-plus":
