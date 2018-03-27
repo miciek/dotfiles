@@ -54,7 +54,7 @@ ZSH_THEME="zemm-blinks"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git scala sbt atom httpie docker command-not-found brew node npm last-working-dir zsh-syntax-highlighting)
+plugins=(asdf git scala sbt atom httpie kubectl docker command-not-found brew node npm last-working-dir zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -70,9 +70,6 @@ export EDITOR='vim'
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# z - jump around
-. $HOME/Apps/tools/z.sh
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -85,4 +82,7 @@ export EDITOR='vim'
 # Custom stuff
 export PATH=$PATH:/Users/miciek/.local/bin
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-export PATH=/usr/local/Cellar/node/8.5.0/bin:$PATH
+
+. $HOME/Apps/tools/z.sh
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
