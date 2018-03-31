@@ -8,6 +8,11 @@
   "autocomplete-clang": {}
   "autocomplete-haskell":
     useBackend: "haskell-ghc-mod"
+  "autocomplete-plus":
+    fileBlacklist: [
+      "*.md"
+      "*.txt"
+    ]
   autosave:
     enabled: true
   "browser-plus":
@@ -37,7 +42,6 @@
     tabType: "soft"
   "elm-format":
     autoJumpToSyntaxError: false
-    showErrorNotifications: false
   elmjutsu:
     autocompleteEnabled: true
     autocompleteFuzzyFilteringEnabled: true
@@ -54,7 +58,9 @@
   "file-watcher":
     promptWhenFileHasChangedOnDisk: false
   "fuzzy-finder":
+    prefillFromSelection: true
     preserveLastSearch: true
+    useAlternateScoring: false
   "git-diff":
     showIconsInEditorGutter: true
   "git-plus":
@@ -64,6 +70,11 @@
   "ide-haskell": {}
   "ide-haskell-cabal":
     activeGhcVersion: "7.10"
+  "ide-haskell-repl":
+    autoReloadRepeat: true
+    defaultRepl: "stack"
+    ghciPath: "stack ghci"
+    showTypes: true
   "language-babel": {}
   "language-elm":
     autocompleteEnabled: false
