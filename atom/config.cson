@@ -3,7 +3,7 @@
     "atom-ide-code-format":
       formatOnSave: true
     use:
-      "atom-ide-diagnostics-ui": false
+      "atom-ide-diagnostics-ui": "never"
   "atom-material-ui": {}
   "autocomplete-clang": {}
   "autocomplete-haskell":
@@ -19,7 +19,8 @@
     currentFile: false
   "copy-as-rtf": {}
   core:
-    autoHideMenuBar: true
+    autoHideMenuBar: false
+    closeDeletedFileTabs: true
     disabledPackages: [
       "tabs"
     ]
@@ -31,10 +32,9 @@
       "solarized-dark-ui"
       "solarized-dark-syntax"
     ]
-    titleBar: "custom"
   editor:
     fontFamily: "Source Code Pro"
-    fontSize: 15
+    fontSize: 16
     invisibles: {}
     preferredLineLength: 100
     showIndentGuide: true
