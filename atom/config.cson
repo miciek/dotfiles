@@ -87,6 +87,8 @@
     displayCodeHighlights: false
   nuclide:
     remoteProjectsConfig: []
+  "platformio-ide-terminal":
+    core: {}
   "prettier-atom":
     formatOnSaveOptions:
       enabled: true
@@ -94,6 +96,9 @@
       printWidth: 100
   react:
     enabledForAllJavascriptFiles: true
+  sbt:
+    script: "/Users/miciek/.asdf/shims/sbt"
+    showStartupMessage: false
   "spell-check": {}
   "terminal-plus":
     core: {}

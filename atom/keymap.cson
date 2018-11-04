@@ -37,5 +37,5 @@
 '.platform-darwin atom-text-editor':
   'cmd-e': 'unset!'
 
-'.platform-darwin, .platform-darwin .command-palette atom-text-editor':
+'.platform-darwin, .platform-darwin .command-palette atom-text-editor, .platform-darwin atom-workspace':
   'shift-cmd-A': 'command-palette:toggle'
