@@ -1,0 +1,112 @@
+<application>
+  <component name="RecentProjectsManager">
+    <option name="additionalInfo">
+      <map>
+        <entry key="$USER_HOME$/workspace/hackerrank">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="build" value="IC-192.6817.14" />
+              <option name="buildTimestamp" value="1569299991930" />
+              <option name="productionCode" value="IC" />
+              <option name="projectOpenTimestamp" value="1574256902930" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/workspace/influencer-stats">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="build" value="IC-183.5429.30" />
+              <option name="buildTimestamp" value="1548743204390" />
+              <option name="productionCode" value="IC" />
+              <option name="projectOpenTimestamp" value="1558263361313" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/workspace/pacman-collectibles">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="build" value="IC-182.4323.46" />
+              <option name="buildTimestamp" value="1535995090967" />
+              <option name="productionCode" value="IC" />
+              <option name="projectOpenTimestamp" value="1540129796700" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/workspace/pacman-multiplayer-fp">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="build" value="IC-182.4323.46" />
+              <option name="buildTimestamp" value="1535995090967" />
+              <option name="productionCode" value="IC" />
+              <option name="projectOpenTimestamp" value="1540129795570" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/workspace/playing-with-cats">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="build" value="IC-181.4203.550" />
+              <option name="buildTimestamp" value="1522095801239" />
+              <option name="productionCode" value="IC" />
+              <option name="projectOpenTimestamp" value="1525520484649" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/workspace/problem-hunting/java">
+          <value>
+            <RecentProjectMetaInfo projectWorkspaceId="1Xx5IG0Sbk7zLdUUZNzgg82GLGi">
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="build" value="IC-193.6494.35" />
+              <option name="buildTimestamp" value="1581399200592" />
+              <frame x="0" y="23" width="1680" height="1027" extendedState="6" />
+              <option name="productionCode" value="IC" />
+              <option name="projectOpenTimestamp" value="1581974825193" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/workspace/2d3dbae2-9786-4088-b1f3-7677f2c1a3ff">
+          <value>
+            <RecentProjectMetaInfo projectWorkspaceId="1XxCKMNSRjhlHXeHXjHC6Je4v9l">
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="build" value="IC-193.6494.35" />
+              <option name="buildTimestamp" value="1581399200592" />
+              <frame x="0" y="23" width="1680" height="1027" extendedState="6" />
+              <option name="productionCode" value="IC" />
+              <option name="projectOpenTimestamp" value="1581978294781" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/workspace/grokkingfp-examples">
+          <value>
+            <RecentProjectMetaInfo opened="true" projectWorkspaceId="1QPzLeobv6i0dFrmAbn1SbMVICl">
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="build" value="IC-193.6494.35" />
+              <option name="buildTimestamp" value="1581399221853" />
+              <frame x="0" y="23" width="1440" height="877" extendedState="6" />
+              <option name="productionCode" value="IC" />
+              <option name="projectOpenTimestamp" value="1584786827021" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="lastProjectLocation" value="$USER_HOME$/workspace" />
+    <option name="recentPaths">
+      <list>
+        <option value="$USER_HOME$/workspace/grokkingfp-examples" />
+        <option value="$USER_HOME$/workspace/2d3dbae2-9786-4088-b1f3-7677f2c1a3ff" />
+        <option value="$USER_HOME$/workspace/problem-hunting/java" />
+        <option value="$USER_HOME$/workspace/playing-with-cats" />
+        <option value="$USER_HOME$/workspace/pacman-multiplayer-fp" />
+        <option value="$USER_HOME$/workspace/pacman-collectibles" />
+        <option value="$USER_HOME$/workspace/influencer-stats" />
+        <option value="$USER_HOME$/workspace/hackerrank" />
+      </list>
+    </option>
+  </component>
+</application>

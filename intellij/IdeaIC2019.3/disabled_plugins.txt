@@ -1,0 +1,6 @@
+AntSupport
+DevKit
+Subversion
+com.intellij.uiDesigner
+com.vladsch.idea.multimarkdown
+hg4idea
