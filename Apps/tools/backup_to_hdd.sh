@@ -1,1 +1,0 @@
-duplicity --progress --archive-dir=/duplicity --include=/home/miciek/Pictures --include=/home/miciek/Documents --include=/home/miciek/Workspace --include=/home/miciek/Music --include=/home/miciek/Videos --exclude='**' /home/miciek/ file:///media/miciek/miciek-backup/miciek-laptop

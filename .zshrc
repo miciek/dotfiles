@@ -14,7 +14,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="zemm-blinks"
+ZSH_THEME="cdimascio-lambda"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -54,7 +54,7 @@ ZSH_THEME="zemm-blinks"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(asdf git scala sbt atom httpie kubectl docker command-not-found brew node npm last-working-dir zsh-syntax-highlighting sudo dirhistory)
+plugins=(asdf git scala sbt kubectl docker command-not-found brew node npm last-working-dir sudo dirhistory zsh-syntax-highlighting zsh-completions zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -80,7 +80,7 @@ export EDITOR='vim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Custom stuff
-. $HOME/Apps/tools/z.sh
+. $HOME/z.sh
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 . $HOME/.zshenv
