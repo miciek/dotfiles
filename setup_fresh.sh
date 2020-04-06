@@ -1,19 +1,18 @@
 #!/bin/bash
 
-# Add proper keys to .ssh ssh-add # Install Firefox, iTerm2, Docker, Magnet, 1Password, Amphetamine
+# Add proper keys to .ssh ssh-add
+ssh-add
 
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# Install Firefox, iTerm2, Docker, Magnet, 1Password, Amphetamine
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew install mc
 brew install jq
 brew install node
 brew install vim
+brew install coreutils
 brew install zsh zsh-completions
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-mkdir -p workspace
-cd workspace
-git clone git@github.com:miciek/dotfiles.git
-cd
 
 ln -s ~/workspace/dotfiles/.gitconfig .gitconfig
 ln -s ~/workspace/dotfiles/.vimrc .vimrc
@@ -42,6 +41,7 @@ cp ~/workspace/dotfiles/Monokai_Vivid.itermcolors ~/Downloads
 
 sudo chsh -s /bin/zsh
 
+rm -rf ~/.asdf
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.8
 asdf plugin add java
 asdf plugin add scala
