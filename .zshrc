@@ -81,7 +81,7 @@ export EDITOR='vim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Custom stuff
-. $HOME/z.sh
+. $HOME/.z.sh
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 . $HOME/.zshenv

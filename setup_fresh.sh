@@ -14,17 +14,23 @@ brew install node
 brew install vim
 brew install coreutils
 brew install zsh zsh-completions
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
+# oh-my-zsh (remember to exit zsh to continue the setup)
+rm -rf ~/.oh-my-zsh
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+cp ~/workspace/dotfiles/.oh-my-zsh/custom/cdimascio-lambda.zsh-theme ~/.oh-my-zsh/custom/ 
+
+# config files
+cd
+rm -rf ~/.gitconfig ~/.vimrc ~/.zshenv ~/.zshenv-custom ~/.vim ~/.z.sh ~/.selected-editor
 ln -s ~/workspace/dotfiles/.gitconfig .gitconfig
 ln -s ~/workspace/dotfiles/.vimrc .vimrc
 ln -s ~/workspace/dotfiles/.zshenv .zshenv
 ln -s ~/workspace/dotfiles/.zshenv-custom .zshenv-custom
 ln -s ~/workspace/dotfiles/.zshrc .zshrc
 ln -s ~/workspace/dotfiles/.vim .vim
-ln -s ~/workspace/dotfiles/z.sh z.sh
+ln -s ~/workspace/dotfiles/.z.sh .z.sh
 ln -s ~/workspace/dotfiles/.selected_editor .selected_editor
-cp ~/workspace/dotfiles/.oh-my-zsh/custom/cdimascio-lambda.zsh-theme ~/.oh-my-zsh/custom/ 
 
 # Install custom zsh plugins
 cd ~/.oh-my-zsh/custom/plugins
@@ -32,6 +38,9 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/zsh-users/zsh-completions
 git clone https://github.com/zsh-users/zsh-autosuggestions
 cd
+
+# Install nvim
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Fonts: import from fonts
 cp ~/workspace/dotfiles/fonts.zip ~/Downloads
