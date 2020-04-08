@@ -59,7 +59,8 @@ plugins=(asdf git scala sbt kubectl docker command-not-found brew node npm last-
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
@@ -86,3 +87,5 @@ export EDITOR='vim'
 . $HOME/.zshenv
 . $HOME/.zshenv-custom
 
+#bindkey '^ ' autosuggest-accept
+bindkey '^ ' autosuggest-execute

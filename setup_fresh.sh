@@ -3,7 +3,9 @@
 # Add proper keys to .ssh ssh-add
 ssh-add
 
-# Install Firefox, iTerm2, Docker, Magnet, 1Password, Amphetamine
+# Install Firefox, iTerm2, Docker, Atom, Magnet, 1Password, Amphetamine, Flux
+
+# Import iTerm2 profile iTerm2-profile.json
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew install mc
@@ -21,6 +23,7 @@ ln -s ~/workspace/dotfiles/.zshenv-custom .zshenv-custom
 ln -s ~/workspace/dotfiles/.zshrc .zshrc
 ln -s ~/workspace/dotfiles/.vim .vim
 ln -s ~/workspace/dotfiles/z.sh z.sh
+ln -s ~/workspace/dotfiles/.selected_editor .selected_editor
 cp ~/workspace/dotfiles/.oh-my-zsh/custom/cdimascio-lambda.zsh-theme ~/.oh-my-zsh/custom/ 
 
 # Install custom zsh plugins
@@ -38,6 +41,13 @@ cp -r ~/workspace/dotfiles/wallpapers ~/Downloads
 
 # Screensaver: import from wallpapers
 cp ~/workspace/dotfiles/Monokai_Vivid.itermcolors ~/Downloads
+
+cp -r ~/workspace/dotfiles/intellij/IdeaIC2019.3 ~/Library/Preferences
+
+# Atom
+# install first and make sure atom and apm commands are available
+cp ~/workspace/dotfiles/atom/keymap.cson ~/.atom/keymap.cson
+cp ~/workspace/dotfiles/atom/config.cson ~/.atom/config.cson
 
 sudo chsh -s /bin/zsh
 
