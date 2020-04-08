@@ -87,5 +87,6 @@ export EDITOR='vim'
 . $HOME/.zshenv
 . $HOME/.zshenv-custom
 
-#bindkey '^ ' autosuggest-accept
+# Add bindkeys for autosuggestions fast execution/completion
+# bindkey '^ ' autosuggest-accept
 bindkey '^ ' autosuggest-execute
