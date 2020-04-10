@@ -26,11 +26,12 @@ rm -rf ~/.gitconfig ~/.vimrc ~/.zshenv ~/.zshenv-custom ~/.vim ~/.z.sh ~/.select
 ln -s ~/workspace/dotfiles/.gitconfig .gitconfig
 ln -s ~/workspace/dotfiles/.vimrc .vimrc
 ln -s ~/workspace/dotfiles/.zshenv .zshenv
-ln -s ~/workspace/dotfiles/.zshenv-custom .zshenv-custom
 ln -s ~/workspace/dotfiles/.zshrc .zshrc
 ln -s ~/workspace/dotfiles/.vim .vim
 ln -s ~/workspace/dotfiles/.z.sh .z.sh
 ln -s ~/workspace/dotfiles/.selected_editor .selected_editor
+
+cp ~/workspace/dotfiles/.zshenv-custom .zshenv-custom # this is local to the workstation (aliases, PATHs)
 
 # Install custom zsh plugins
 cd ~/.oh-my-zsh/custom/plugins

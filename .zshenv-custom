@@ -1,1 +1,4 @@
-# all workstation-specific EXPORTs
+# all workstation-specific aliases & exports
+
+# alias key="value"
+# export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
