@@ -12,6 +12,7 @@ brew install mc
 brew install jq
 brew install node
 brew install vim
+brew install htop
 brew install coreutils
 brew install zsh zsh-completions
 
