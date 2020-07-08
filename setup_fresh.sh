@@ -5,6 +5,8 @@ ssh-add
 
 # Install Firefox, iTerm2, Docker, Atom, Magnet, 1Password, Amphetamine, Flux
 
+# Mac: make sure Preferences -> Keyboard Key Repear=Fast, Delay=Short
+
 # Import iTerm2 profile iTerm2-profile.json
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
