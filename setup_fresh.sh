@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Add proper keys to .ssh ssh-add
+# Add proper keys to .ssh
 ssh-add
 
 # Install Firefox, iTerm2, Docker, Atom, Magnet, 1Password, Amphetamine, Flux
@@ -45,6 +45,10 @@ cd
 
 # Install nvim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# Install cheat.sh
+curl https://cht.sh/:cht.sh > /usr/local/bin/cht.sh
+chmod +x /usr/local/bin/cht.sh
 
 # Fonts: import from fonts
 cp ~/workspace/dotfiles/fonts.zip ~/Downloads
