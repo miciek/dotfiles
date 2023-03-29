@@ -1,0 +1,7 @@
+<code_scheme name="Default" version="173">
+  <ScalaCodeStyleSettings>
+    <option name="SCALAFMT_CONFIG_PATH" value="/Users/michal.plachta/workspace/bigdata/model_factory_v2/licensespring/target/scala-2.12/resource_managed/scalafmt.conf" />
+    <option name="SCALAFMT_REFORMAT_ON_FILES_SAVE" value="true" />
+    <option name="FORMATTER" value="1" />
+  </ScalaCodeStyleSettings>
+</code_scheme>

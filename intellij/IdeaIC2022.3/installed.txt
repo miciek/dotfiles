@@ -1,0 +1,8 @@
+com.andrey4623.rainbowcsv
+IdeaVIM
+org.jetbrains.plugins.hocon
+org.intellij.scala
+net.ashald.envfile
+com.chrisrm.idea.MaterialThemeUI
+com.mallowigi
+zielu.gittoolbox

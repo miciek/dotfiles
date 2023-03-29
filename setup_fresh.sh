@@ -17,6 +17,7 @@ brew install vim
 brew install htop
 brew install coreutils
 brew install zsh zsh-completions
+brew install watch
 
 # oh-my-zsh (remember to exit zsh to continue the setup)
 rm -rf ~/.oh-my-zsh

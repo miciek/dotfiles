@@ -1,5 +1,7 @@
 [user]
-	email = miciek@gmail.com
-	name = miciek
+	email = miciek@exul.net
+	name = Michał Płachta
 [push]
 	default = simple
+[pull]
+	ff = only
