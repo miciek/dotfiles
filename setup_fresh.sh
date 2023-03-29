@@ -3,16 +3,14 @@
 # Add proper keys to .ssh
 ssh-add
 
-# Install Firefox, iTerm2, Docker, Atom, Magnet, 1Password, Amphetamine, Flux
+# Install Firefox (Sync + import settings), iTerm2, Magnet, 1Password, Flux, Brew, and git
 
-# Mac: make sure Preferences -> Keyboard Key Repear=Fast, Delay=Short
+# Mac: make sure Preferences -> Keyboard Key Repeat=Fast, Delay=Short; Preferences -> Mouse Key Tracking Speed=Fast, Secondary Click=Click Right Side, Smart Zoom
 
 # Import iTerm2 profile iTerm2-profile.json
 
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 brew install mc
 brew install jq
-brew install node
 brew install vim
 brew install htop
 brew install coreutils
@@ -26,14 +24,14 @@ cp ~/workspace/dotfiles/.oh-my-zsh/custom/cdimascio-lambda.zsh-theme ~/.oh-my-zs
 
 # config files
 cd
-rm -rf ~/.gitconfig ~/.vimrc ~/.zshenv ~/.zshenv-custom ~/.vim ~/.z.sh ~/.selected-editor
-ln -s ~/workspace/dotfiles/.gitconfig .gitconfig
-ln -s ~/workspace/dotfiles/.vimrc .vimrc
-ln -s ~/workspace/dotfiles/.zshenv .zshenv
-ln -s ~/workspace/dotfiles/.zshrc .zshrc
-ln -s ~/workspace/dotfiles/.vim .vim
-ln -s ~/workspace/dotfiles/.z.sh .z.sh
-ln -s ~/workspace/dotfiles/.selected_editor .selected_editor
+rm -rf ~/.gitconfig ~/.vimrc ~/.zshenv ~/.zshrc ~/.vim ~/.z.sh ~/.selected-editor ~/.zshenv-custom 
+ln -sf ~/workspace/dotfiles/.gitconfig .gitconfig
+ln -sf ~/workspace/dotfiles/.vimrc .vimrc
+ln -sf ~/workspace/dotfiles/.zshenv .zshenv
+ln -sf ~/workspace/dotfiles/.zshrc .zshrc
+ln -sf ~/workspace/dotfiles/.vim .vim
+ln -sf ~/workspace/dotfiles/.z.sh .z.sh
+ln -sf ~/workspace/dotfiles/.selected_editor .selected_editor
 
 cp ~/workspace/dotfiles/.zshenv-custom .zshenv-custom # this is local to the workstation (aliases, PATHs)
 
@@ -47,40 +45,41 @@ cd
 # Install nvim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-# Install cheat.sh
-curl https://cht.sh/:cht.sh > /usr/local/bin/cht.sh
-chmod +x /usr/local/bin/cht.sh
+# Install cht.sh
+curl https://cht.sh/:cht.sh > ~/cht.sh
+chmod +x ~/cht.sh
 
 # Fonts: import from fonts
 cp ~/workspace/dotfiles/fonts.zip ~/Downloads
 
-# iTerm2: import .itermcolors theme
+# Screensaver: import from wallpapers
 cp -r ~/workspace/dotfiles/wallpapers ~/Downloads
 
-# Screensaver: import from wallpapers
-cp ~/workspace/dotfiles/Monokai_Vivid.itermcolors ~/Downloads
-
-cp -r ~/workspace/dotfiles/intellij/IdeaIC2019.3 ~/Library/Preferences
-
-# Atom
-# install first and make sure atom and apm commands are available
-cp ~/workspace/dotfiles/atom/keymap.cson ~/.atom/keymap.cson
-cp ~/workspace/dotfiles/atom/config.cson ~/.atom/config.cson
+# IntelliJ: import settings from intellij
+cp -r ~/workspace/dotfiles/intellij ~/Downloads
 
 sudo chsh -s /bin/zsh
 
 rm -rf ~/.asdf
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.8
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+. "$HOME/.asdf/asdf.sh" # should also be in .zshrc / .bashprofile
 asdf plugin add java
 asdf plugin add scala
 asdf plugin add sbt
+asdf plugin add python
+asdf plugin add nodejs
 
-asdf install java adopt-openjdk-11.0.6+10
-asdf install scala 2.12.11
-asdf install scala 2.13.1
-asdf install sbt 1.3.8
+asdf install java adoptopenjdk-11.0.18+10
+asdf install java openjdk-17
+asdf install scala 2.13.10
+asdf install scala 3.2.2
+asdf install sbt 1.7.1
+asdf install python 3.9.10
+asdf install nodejs 16.9.1
 
-asdf global java adopt-openjdk-11.0.6+10
-asdf global scala 2.12.11
-asdf global sbt 1.3.8
+asdf global java adoptopenjdk-11.0.18+10
+asdf global scala 2.13.10
+asdf global sbt 1.7.1
+asdf global python 3.9.10
+asdf global nodejs 16.9.1
 
