@@ -1,13 +1,21 @@
 #!/bin/bash
+set -ex
+
+echo 'Read comments in the script! Also, when in zsh, remember to exit from it so that the script can continue'
 
 # Add proper keys to .ssh
 ssh-add
 
 # Install Firefox (Sync + import settings), iTerm2, Magnet, 1Password, Flux, Brew, and git
 
-# Mac: make sure Preferences -> Keyboard Key Repeat=Fast, Delay=Short; Preferences -> Mouse Key Tracking Speed=Fast, Secondary Click=Click Right Side, Smart Zoom
+# Mac: 
+# - Preferences -> Keyboard Key Repeat=Fast, Delay=Short;
+# - Preferences -> Mouse Key Tracking Speed=Fast, Secondary Click=Click Right Side, Smart Zoom
 
-# Import iTerm2 profile iTerm2-profile.json
+# iTerm2:
+# - import profile (iTerm2-profile.json)
+# - iTerm2 Settings -> Appearance -> General -> Theme=minimal
+# - iTerm2 Settings -> Profiles -> Terminal -> Unlimited scrollback
 
 brew install mc
 brew install jq
@@ -16,6 +24,7 @@ brew install htop
 brew install coreutils
 brew install zsh zsh-completions
 brew install watch
+brew install automake libtool
 
 # oh-my-zsh (remember to exit zsh to continue the setup)
 rm -rf ~/.oh-my-zsh
@@ -35,6 +44,8 @@ ln -sf ~/workspace/dotfiles/.selected_editor .selected_editor
 
 cp ~/workspace/dotfiles/.zshenv-custom .zshenv-custom # this is local to the workstation (aliases, PATHs)
 
+# move .zsh_history and .ssh from another computer
+
 # Install custom zsh plugins
 cd ~/.oh-my-zsh/custom/plugins
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -42,14 +53,14 @@ git clone https://github.com/zsh-users/zsh-completions
 git clone https://github.com/zsh-users/zsh-autosuggestions
 cd
 
-# Install nvim
+# Install nvim (remember to run :PlugInstall on the first vim run!)
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Install cht.sh
 curl https://cht.sh/:cht.sh > ~/cht.sh
 chmod +x ~/cht.sh
 
-# Fonts: import from fonts
+# Fonts: import from fonts (more fonts in Documents/backups/fonts
 cp ~/workspace/dotfiles/fonts.zip ~/Downloads
 
 # Screensaver: import from wallpapers
@@ -58,8 +69,10 @@ cp -r ~/workspace/dotfiles/wallpapers ~/Downloads
 # IntelliJ: import settings from intellij
 cp -r ~/workspace/dotfiles/intellij ~/Downloads
 
+# Change default shell to zsh
 sudo chsh -s /bin/zsh
 
+# Install asdf and tools
 rm -rf ~/.asdf
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 . "$HOME/.asdf/asdf.sh" # should also be in .zshrc / .bashprofile
@@ -69,7 +82,7 @@ asdf plugin add sbt
 asdf plugin add python
 asdf plugin add nodejs
 
-asdf install java adoptopenjdk-11.0.18+10
+asdf install java zulu-11.62.17
 asdf install java openjdk-17
 asdf install scala 2.13.10
 asdf install scala 3.2.2
@@ -77,7 +90,7 @@ asdf install sbt 1.7.1
 asdf install python 3.9.10
 asdf install nodejs 16.9.1
 
-asdf global java adoptopenjdk-11.0.18+10
+asdf global java zulu-11.62.17
 asdf global scala 2.13.10
 asdf global sbt 1.7.1
 asdf global python 3.9.10
