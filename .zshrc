@@ -79,6 +79,7 @@ export EDITOR='vim'
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias virtualenv python -m virtualenv
 
 # Custom stuff
 . $HOME/.z.sh
@@ -90,3 +91,4 @@ export EDITOR='vim'
 # Add bindkeys for autosuggestions fast execution/completion
 # bindkey '^ ' autosuggest-accept
 bindkey '^ ' autosuggest-execute
+

@@ -6,6 +6,9 @@ echo 'Read comments in the script! Also, when in zsh, remember to exit from it s
 # Add proper keys to .ssh
 ssh-add
 
+# Create local bin directory (install all tools there or through asdf)
+mkdir -p ~/.local/bin
+
 # Install Firefox (Sync + import settings), iTerm2, Magnet, 1Password, Flux, Brew, and git
 
 # Mac: 
@@ -57,7 +60,7 @@ cd
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Install cht.sh
-curl https://cht.sh/:cht.sh > ~/cht.sh
+curl https://cht.sh/:cht.sh > ~/.local/bin/cht.sh
 chmod +x ~/cht.sh
 
 # Fonts: import from fonts (more fonts in Documents/backups/fonts
@@ -96,3 +99,8 @@ asdf global sbt 1.7.1
 asdf global python 3.9.10
 asdf global nodejs 16.9.1
 
+# Install virtual env locally (in ~/.local/bin)
+python -m pip install --upgrade pip
+python -m pip install --user virtualenv
+
+alias virtualenv python -m virtualenv
