@@ -91,13 +91,13 @@ asdf install scala 2.13.10
 asdf install scala 3.2.2
 asdf install sbt 1.7.1
 asdf install python 3.9.10
-asdf install nodejs 16.9.1
+asdf install nodejs 16.17.0
 
 asdf global java zulu-11.62.17
 asdf global scala 2.13.10
 asdf global sbt 1.7.1
 asdf global python 3.9.10
-asdf global nodejs 16.9.1
+asdf global nodejs 16.17.0
 
 # Install virtual env locally (in ~/.local/bin)
 python -m pip install --upgrade pip
