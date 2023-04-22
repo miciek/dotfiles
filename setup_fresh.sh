@@ -1,24 +1,33 @@
 #!/bin/bash
 set -ex
 
-echo 'Read comments in the script! Also, when in zsh, remember to exit from it so that the script can continue'
+cat << EOF
+Before continuing:
+ 1. move .zsh_history and .ssh from another computer
+ 2. install iTerm2, Magnet, 1Password, Flux, brew, git, and others from App Store
+ 3. install Firefox (Sync + import settings),
+ 4. move the Firefox profile from another computer (or from Documents/backups)
+ 5. Mac Settings -> Keyboard Key Repeat=Fast, Delay=Short;
+ 6. Mac Settings -> Mouse Tracking Speed=Fast, Secondary Click=Click Right Side, Smart Zoom
+ 7. Mac Settings -> Size=Small, Magnification=Medium, Auto hide=on, Auto rearrange=off, Group by app=on
+ 8. Mac Settings -> Keyboard -> Input Sources (Polish/ABC) -> Show in menu=on, Auto switch=on, Correct Spelling=on, Captialise words=off
+ 9. Mac Settings -> iCloud -> iCloud Drive -> Desktop & Documents folders=on
+ 9. iTerm2 Settings -> Profiles -> Import JSON profiles (iTerm2-profile.json)
+10. iTerm2 Settings -> Appearance -> General -> Theme=minimal
+11. iTerm2 Settings -> Profiles -> Terminal -> Unlimited scrollback
+
+When in zsh, remember to exit from it so that the script can continue
+After finishing, look at the Downloads folder to see more import options.
+EOF
+
+read -p "Press enter to continue"
+
 
 # Add proper keys to .ssh
 ssh-add
 
 # Create local bin directory (install all tools there or through asdf)
 mkdir -p ~/.local/bin
-
-# Install Firefox (Sync + import settings), iTerm2, Magnet, 1Password, Flux, Brew, and git
-
-# Mac: 
-# - Preferences -> Keyboard Key Repeat=Fast, Delay=Short;
-# - Preferences -> Mouse Key Tracking Speed=Fast, Secondary Click=Click Right Side, Smart Zoom
-
-# iTerm2:
-# - import profile (iTerm2-profile.json)
-# - iTerm2 Settings -> Appearance -> General -> Theme=minimal
-# - iTerm2 Settings -> Profiles -> Terminal -> Unlimited scrollback
 
 brew install mc
 brew install jq
@@ -47,8 +56,6 @@ ln -sf ~/workspace/dotfiles/.selected_editor .selected_editor
 
 cp ~/workspace/dotfiles/.zshenv-custom .zshenv-custom # this is local to the workstation (aliases, PATHs)
 
-# move .zsh_history and .ssh from another computer
-
 # Install custom zsh plugins
 cd ~/.oh-my-zsh/custom/plugins
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -61,9 +68,9 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.g
 
 # Install cht.sh
 curl https://cht.sh/:cht.sh > ~/.local/bin/cht.sh
-chmod +x ~/cht.sh
+chmod +x ~/.local/bin/cht.sh
 
-# Fonts: import from fonts (more fonts in Documents/backups/fonts
+# Fonts: import from fonts (more fonts in Documents/backups/fonts)
 cp ~/workspace/dotfiles/fonts.zip ~/Downloads
 
 # Screensaver: import from wallpapers
@@ -103,4 +110,3 @@ asdf global nodejs 16.17.0
 python -m pip install --upgrade pip
 python -m pip install --user virtualenv
 
-alias virtualenv python -m virtualenv
