@@ -98,13 +98,13 @@ asdf install java zulu-11.62.17
 asdf install java openjdk-17
 asdf install scala 2.13.10
 asdf install scala 3.2.2
-asdf install sbt 1.7.1
+asdf install sbt 1.8.3
 asdf install python 3.9.10
 asdf install nodejs 16.17.0
 
-asdf global java zulu-11.62.17
-asdf global scala 2.13.10
-asdf global sbt 1.7.1
+asdf global java openjdk-17
+asdf global scala 3.2.2
+asdf global sbt 1.8.3
 asdf global python 3.9.10
 asdf global nodejs 16.17.0
 
