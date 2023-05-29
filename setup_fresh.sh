@@ -18,6 +18,8 @@ Before continuing:
 
 When in zsh, remember to exit from it so that the script can continue
 After finishing, look at the Downloads folder to see more import options.
+
+After installing neovim, remember to :PlugInstall on the first run.
 EOF
 
 read -p "Press enter to continue"
