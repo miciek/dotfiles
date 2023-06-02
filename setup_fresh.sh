@@ -93,6 +93,7 @@ asdf plugin add scala
 asdf plugin add sbt
 asdf plugin add python
 asdf plugin add nodejs
+asdf plugin-add ruby
 
 asdf install java zulu-11.62.17
 asdf install java openjdk-17
@@ -101,14 +102,18 @@ asdf install scala 3.2.2
 asdf install sbt 1.8.3
 asdf install python 3.9.10
 asdf install nodejs 16.17.0
+asdf install ruby 3.2.2
 
 asdf global java openjdk-17
 asdf global scala 3.2.2
 asdf global sbt 1.8.3
 asdf global python 3.9.10
 asdf global nodejs 16.17.0
+asdf global ruby 3.2.2
 
 # Install virtual env locally (in ~/.local/bin)
 python -m pip install --upgrade pip
 python -m pip install --user virtualenv
 
+# Install jekyll
+sudo gem install jekyll
