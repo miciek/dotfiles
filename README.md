@@ -13,3 +13,5 @@ Note that some `asdf` plugins require `gpg` tool and imported keys. Execute `bas
 ## Provisioning
 The files in this repository are used to automatically provision my workstation from scratch. See [my-machine-provisioning repo](https://github.com/miciek/my-machine-provisioning) for more information.
 
+## vim
+Remember to run `:PlugInstall` on a fresh vim run. Run `:PlugUpdate` before committing.
