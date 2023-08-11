@@ -30,10 +30,10 @@ endif
 
 " Configuration for vim-plug
 Plug 'derekwyatt/vim-scala'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 " scala support (metals)
-Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
+Plug 'scalameta/coc-metals', { 'do': 'yarn install --frozen-lockfile', 'branch': 'main' }
 
 Plug 'ctrlpvim/ctrlp.vim'
 
