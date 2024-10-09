@@ -36,12 +36,15 @@ mkdir -p ~/.config
 
 brew install mc
 brew install jq
-brew install vim
+brew install vim nvim
 brew install htop
 brew install coreutils
 brew install zsh zsh-completions
 brew install watch
 brew install automake libtool
+brew install wget
+brew install rg
+brew install coursier/formulas/coursier
 
 # oh-my-zsh (remember to exit zsh to continue the setup)
 rm -rf ~/.oh-my-zsh
@@ -95,31 +98,29 @@ git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 asdf plugin add java
 asdf plugin add scala
 asdf plugin add sbt
+asdf plugin add coursier
 asdf plugin add python
 asdf plugin add nodejs
 asdf plugin-add ruby
+asdf plugin-add lazygit
 
-asdf install java zulu-11.62.17
-asdf install java openjdk-17
-asdf install scala 2.13.10
-asdf install scala 3.2.2
-asdf install sbt 1.8.3
+asdf install java graalvm-community-17.0.9
+asdf install scala 3.5.1
+asdf install sbt 1.9.9
+asdf install coursier 2.1.9
 asdf install python 3.9.10
 asdf install nodejs 16.17.0
-asdf install ruby 3.2.2
+asdf install ruby 3.3.5
+asdf install lazygit latest
 
-asdf global java openjdk-17
-asdf global scala 3.2.2
-asdf global sbt 1.8.3
+asdf global java graalvm-community-17.0.9
+asdf global scala 3.5.1
+asdf global sbt 1.9.9
+asdf global coursier 2.1.9
 asdf global python 3.9.10
 asdf global nodejs 16.17.0
-asdf global ruby 3.2.2
-
-# temporarily brew (can be changed to asdf hopefully)
-brew install coursier/formulas/coursier
-brew install wget
-brew install rg
-brew install nvim
+asdf global ruby 3.3.5
+asdf global lazygit latest
 
 # Install virtual env locally (in ~/.local/bin)
 python -m pip install --upgrade pip
