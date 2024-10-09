@@ -31,6 +31,9 @@ ssh-add
 # Create local bin directory (install all tools there or through asdf)
 mkdir -p ~/.local/bin
 
+# Create local config directory
+mkdir -p ~/.config
+
 brew install mc
 brew install jq
 brew install vim
@@ -55,6 +58,7 @@ ln -sf ~/workspace/dotfiles/.zshrc .zshrc
 ln -sf ~/workspace/dotfiles/.vim .vim
 ln -sf ~/workspace/dotfiles/.z.sh .z.sh
 ln -sf ~/workspace/dotfiles/.selected_editor .selected_editor
+ln -sf ~/workspace/dotfiles/nvim ~/.config/nvim
 
 cp ~/workspace/dotfiles/.zshenv-custom .zshenv-custom # this is local to the workstation (aliases, PATHs)
 
@@ -110,6 +114,12 @@ asdf global sbt 1.8.3
 asdf global python 3.9.10
 asdf global nodejs 16.17.0
 asdf global ruby 3.2.2
+
+# temporarily brew (can be changed to asdf hopefully)
+brew install coursier/formulas/coursier
+brew install wget
+brew install rg
+brew install nvim
 
 # Install virtual env locally (in ~/.local/bin)
 python -m pip install --upgrade pip
