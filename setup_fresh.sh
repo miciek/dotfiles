@@ -5,8 +5,7 @@ cat << EOF
 Before continuing:
  1. move .zsh_history and .ssh from another computer
  2. install iTerm2, Magnet, 1Password, Flux, brew, git, and others from App Store
- 3. install Firefox (Sync + import settings),
- 4. move the Firefox profile from another computer (or from Documents/backups)
+ 3. install Firefox (Sync + import settings), 4. move the Firefox profile from another computer (or from Documents/backups)
  5. Mac Settings -> Keyboard Key Repeat=Fast, Delay=Short;
  6. Mac Settings -> Mouse Tracking Speed=Fast, Secondary Click=Click Right Side, Smart Zoom
  7. Mac Settings -> Size=Small, Magnification=Medium, Auto hide=on, Auto rearrange=off, Group by app=on
@@ -44,7 +43,6 @@ brew install watch
 brew install automake libtool
 brew install wget
 brew install rg
-brew install coursier/formulas/coursier
 
 # oh-my-zsh (remember to exit zsh to continue the setup)
 rm -rf ~/.oh-my-zsh
@@ -53,7 +51,7 @@ cp ~/workspace/dotfiles/.oh-my-zsh/custom/cdimascio-lambda.zsh-theme ~/.oh-my-zs
 
 # config files
 cd
-rm -rf ~/.gitconfig ~/.vimrc ~/.zshenv ~/.zshrc ~/.vim ~/.z.sh ~/.selected-editor ~/.zshenv-custom 
+rm -rf ~/.gitconfig ~/.vimrc ~/.zshenv ~/.zshrc ~/.vim ~/.z.sh ~/.selected-editor ~/.zshenv-custom ~/.config/nvim
 ln -sf ~/workspace/dotfiles/.gitconfig .gitconfig
 ln -sf ~/workspace/dotfiles/.vimrc .vimrc
 ln -sf ~/workspace/dotfiles/.zshenv .zshenv
@@ -106,18 +104,18 @@ asdf plugin-add lazygit
 
 asdf install java graalvm-community-17.0.9
 asdf install scala 3.5.1
-asdf install sbt 1.9.9
+asdf install sbt 1.10.2
 asdf install coursier 2.1.9
-asdf install python 3.9.10
+asdf install python 3.12.4
 asdf install nodejs 16.17.0
 asdf install ruby 3.3.5
 asdf install lazygit latest
 
 asdf global java graalvm-community-17.0.9
 asdf global scala 3.5.1
-asdf global sbt 1.9.9
+asdf global sbt 1.10.2
 asdf global coursier 2.1.9
-asdf global python 3.9.10
+asdf global python 3.12.4
 asdf global nodejs 16.17.0
 asdf global ruby 3.3.5
 asdf global lazygit latest
