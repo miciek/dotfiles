@@ -14,6 +14,13 @@ return {
   end,
   config = function(self, metals_config)
     local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+    metals_config.settings = {
+      showImplicitArguments = true,
+      showInferredType = false,
+      superMethodLensesAvailable = true,
+      showImplicitConversionAndClasses = false
+    }
+    metals_config.find_root_dir_max_project_nesting = 2
     vim.api.nvim_create_autocmd("FileType", {
       pattern = self.ft,
       callback = function()
