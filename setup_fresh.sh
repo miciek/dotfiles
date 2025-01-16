@@ -43,6 +43,7 @@ brew install watch
 brew install automake libtool
 brew install wget
 brew install rg
+brew install fzf
 
 # oh-my-zsh (remember to exit zsh to continue the setup)
 rm -rf ~/.oh-my-zsh
