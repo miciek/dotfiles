@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-cat << EOF
+cat <<EOF
 Before continuing:
  1. move .zsh_history and .ssh from another computer
  2. install iTerm2, Magnet, 1Password, Flux, brew, git, and others from App Store
@@ -22,7 +22,6 @@ After installing neovim, remember to :PlugInstall on the first run.
 EOF
 
 read -p "Press enter to continue"
-
 
 # Add proper keys to .ssh
 ssh-add
@@ -48,7 +47,7 @@ brew install fzf
 # oh-my-zsh (remember to exit zsh to continue the setup)
 rm -rf ~/.oh-my-zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-cp ~/workspace/dotfiles/.oh-my-zsh/custom/cdimascio-lambda.zsh-theme ~/.oh-my-zsh/custom/ 
+cp ~/workspace/dotfiles/.oh-my-zsh/custom/cdimascio-lambda.zsh-theme ~/.oh-my-zsh/custom/
 
 # config files
 cd
@@ -75,7 +74,7 @@ cd
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Install cht.sh
-curl https://cht.sh/:cht.sh > ~/.local/bin/cht.sh
+curl https://cht.sh/:cht.sh >~/.local/bin/cht.sh
 chmod +x ~/.local/bin/cht.sh
 
 # Fonts: import from fonts (more fonts in Documents/backups/fonts)
@@ -127,3 +126,8 @@ python -m pip install --user virtualenv
 
 # Install jekyll
 sudo gem install jekyll
+
+# Configure git
+git config --global user.name "Michał Płachta"
+git config --globaluser.email miciek@exul.net
+git config --global merge.tool vimdiff
