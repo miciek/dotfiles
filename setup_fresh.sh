@@ -131,3 +131,6 @@ sudo gem install jekyll
 git config --global user.name "Michał Płachta"
 git config --globaluser.email miciek@exul.net
 git config --global merge.tool vimdiff
+
+# Install and configura Aider (https://aider.chat)
+curl -LsSf https://aider.chat/install.sh | sh
