@@ -9,3 +9,5 @@
 	defaultBranch = main
 [merge]
 	tool = vimdiff
+[core]
+	excludesfile = /Users/michal.plachta/.gitignore_global

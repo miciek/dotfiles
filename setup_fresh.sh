@@ -53,6 +53,7 @@ cp ~/workspace/dotfiles/.oh-my-zsh/custom/cdimascio-lambda.zsh-theme ~/.oh-my-zs
 cd
 rm -rf ~/.gitconfig ~/.vimrc ~/.zshenv ~/.zshrc ~/.vim ~/.z.sh ~/.selected-editor ~/.zshenv-custom ~/.config/nvim
 ln -sf ~/workspace/dotfiles/.gitconfig .gitconfig
+ln -sf ~/workspace/dotfiles/.gitignore_global .gitignore_global
 ln -sf ~/workspace/dotfiles/.vimrc .vimrc
 ln -sf ~/workspace/dotfiles/.zshenv .zshenv
 ln -sf ~/workspace/dotfiles/.zshrc .zshrc
@@ -131,6 +132,7 @@ sudo gem install jekyll
 git config --global user.name "Michał Płachta"
 git config --globaluser.email miciek@exul.net
 git config --global merge.tool vimdiff
+git config --global core.excludesfile ~/.gitignore_global
 
 # Install and configura Aider (https://aider.chat)
 curl -LsSf https://aider.chat/install.sh | sh
