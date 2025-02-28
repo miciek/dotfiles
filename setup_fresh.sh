@@ -62,6 +62,7 @@ ln -sf ~/workspace/dotfiles/.z.sh .z.sh
 ln -sf ~/workspace/dotfiles/.selected_editor .selected_editor
 ln -sf ~/workspace/dotfiles/nvim ~/.config/nvim
 
+cp ~/workspace/dotfiles/.sshconfig ~/.ssh/config
 cp ~/workspace/dotfiles/.zshenv-custom .zshenv-custom # this is local to the workstation (aliases, PATHs)
 
 # Install custom zsh plugins
