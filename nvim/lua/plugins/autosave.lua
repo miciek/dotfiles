@@ -6,5 +6,6 @@ return {
         return ""
       end,
     },
+    trigger_events = { "BufLeave", "ExitPre" }, -- vim events that trigger auto-save, e.g. "InsertLeave", "TextChanged", run :ASToggle twice when changing
   },
 }
