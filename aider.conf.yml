@@ -1,0 +1,8 @@
+# private conf (move to .aider.conf.yml after editing)
+model: 4o
+openai-api-key: <OPENAI_API_KEY>
+
+vim: true
+watch-files: true
+auto-commits: false
+attribute-committer: false
