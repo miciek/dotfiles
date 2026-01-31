@@ -7,3 +7,5 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.cmd("ASToggle")
   end,
 })
+
+vim.opt.shortmess:append("A") -- disable the "swap file found" popup, always edit
