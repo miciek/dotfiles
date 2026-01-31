@@ -94,3 +94,6 @@ bindkey '^ ' autosuggest-execute
 
 alias aider_add="ln -sf ~/workspace/dotfiles/.aider.conf.yml .aider.conf.yml"
 
+
+# opencode
+export PATH=/Users/michal.plachta/.opencode/bin:$PATH

@@ -51,7 +51,7 @@ cp ~/workspace/dotfiles/.oh-my-zsh/custom/cdimascio-lambda.zsh-theme ~/.oh-my-zs
 
 # config files
 cd
-rm -rf ~/.gitconfig ~/.vimrc ~/.zshenv ~/.zshrc ~/.vim ~/.z.sh ~/.selected-editor ~/.zshenv-custom ~/.config/nvim
+rm -rf ~/.gitconfig ~/.vimrc ~/.zshenv ~/.zshrc ~/.vim ~/.z.sh ~/.selected-editor ~/.zshenv-custom ~/.config/nvim ~/.config/opencode
 ln -sf ~/workspace/dotfiles/.gitconfig .gitconfig
 ln -sf ~/workspace/dotfiles/.gitignore_global .gitignore_global
 ln -sf ~/workspace/dotfiles/.vimrc .vimrc
@@ -61,6 +61,7 @@ ln -sf ~/workspace/dotfiles/.vim .vim
 ln -sf ~/workspace/dotfiles/.z.sh .z.sh
 ln -sf ~/workspace/dotfiles/.selected_editor .selected_editor
 ln -sf ~/workspace/dotfiles/nvim ~/.config/nvim
+ln -sf ~/workspace/dotfiles/opencode ~/.config/opencode
 
 cp ~/workspace/dotfiles/.sshconfig ~/.ssh/config
 cp ~/workspace/dotfiles/.zshenv-custom .zshenv-custom # this is local to the workstation (aliases, PATHs)
