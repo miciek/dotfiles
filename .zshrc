@@ -54,7 +54,7 @@ ZSH_THEME="cdimascio-lambda"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(asdf git scala sbt command-not-found brew node npm last-working-dir sudo dirhistory zsh-syntax-highlighting zsh-completions zsh-autosuggestions 1password python postgres zsh-interactive-cd ssh safe-paste)
+plugins=(asdf git scala sbt command-not-found brew node npm last-working-dir sudo dirhistory zsh-syntax-highlighting zsh-completions zsh-autosuggestions python postgres zsh-interactive-cd ssh safe-paste)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -91,9 +91,6 @@ alias virtualenv python -m virtualenv
 # Add bindkeys for autosuggestions fast execution/completion
 # bindkey '^ ' autosuggest-accept
 bindkey '^ ' autosuggest-execute
-
-alias aider_add="ln -sf ~/workspace/dotfiles/.aider.conf.yml .aider.conf.yml"
-
 
 # opencode
 export PATH=/Users/michal.plachta/.opencode/bin:$PATH
